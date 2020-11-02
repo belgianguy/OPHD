@@ -13,11 +13,12 @@
 
 #include <GL/glew.h>
 
-
 using namespace NAS2D;
 
 static GLint NoiseShader = 0;
 
+#pragma warning ( disable: 4127 4244)
+static tweeny::tween<float> tween;
 
 GLuint createShader(const std::string& vertShaderFile, const std::string& fragShaderFile)
 {
@@ -76,7 +77,6 @@ GLuint createShader(const std::string& vertShaderFile, const std::string& fragSh
 
 	return programObject;
 }
-
 
 
 MainMenuState::MainMenuState() :
@@ -155,6 +155,9 @@ void MainMenuState::initialize()
 	if (!mixer.musicPlaying()) { mixer.playMusic(*trackMars); }
 
 	NoiseShader = createShader("shaders/noise.vert", "shaders/noise.frag");
+
+	tween = tweeny::from(0.0f).to(renderer.size().y - 100).during(50.0f);
+	tween.via(0, tweeny::easing::bounceOut);
 }
 
 
@@ -252,16 +255,31 @@ void MainMenuState::fileIoAction(const std::string& filePath, FileIo::FileOperat
 /**
  * Key down event handler.
  */
-void MainMenuState::onKeyDown(NAS2D::EventHandler::KeyCode /*key*/, NAS2D::EventHandler::KeyModifier /*mod*/, bool /*repeat*/)
-{}
+void MainMenuState::onKeyDown(NAS2D::EventHandler::KeyCode key, NAS2D::EventHandler::KeyModifier /*mod*/, bool /*repeat*/)
+{
+	if (key == NAS2D::EventHandler::KeyCode::KEY_SPACE)
+	{
+		if (tween.direction() == 1)
+		{
+			tween.via(0, tweeny::easing::bounceIn);
+			tween.backward();
+		}
+		else
+		{
+			tween.via(0, tweeny::easing::bounceOut);
+			tween.forward();
+		}
+	}
+}
 
 
 /**
  * Window resize event handler.
  */
-void MainMenuState::onWindowResized(int /*width*/, int /*height*/)
+void MainMenuState::onWindowResized(int /*width*/, int height)
 {
 	positionButtons();
+	tween = tweeny::from(0.0f).to(static_cast<float>(height - 100)).during(50.0f);
 }
 
 
@@ -378,6 +396,9 @@ NAS2D::State* MainMenuState::update()
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	tween.step(1);
+	float posy = tween.peek();
+	renderer.drawBoxFilled({ 100, posy, 100.0f, 100.0f }, { 255, 255, 255, 100 });
 
 	if (!mFileIoDialog.visible())
 	{

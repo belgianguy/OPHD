@@ -8,6 +8,8 @@
 #include <NAS2D/EventHandler.h>
 #include <NAS2D/Resources/Image.h>
 
+#include <tweeny/tweeny.h>
+
 
 /**
  * Implements the main menu screen.

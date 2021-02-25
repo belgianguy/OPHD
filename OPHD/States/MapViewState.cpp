@@ -868,7 +868,7 @@ void MapViewState::placeRobot()
 	if (!tile) { return; }
 	if (!mRobotPool.robotCtrlAvailable()) { return; }
 
-	if (!inCommRange(tile->position()))
+	if (!inCommRange(tile))
 	{
 		doAlertMessage(constants::ALERT_INVALID_ROBOT_PLACEMENT, constants::ALERT_OUT_OF_COMM_RANGE);
 		return;

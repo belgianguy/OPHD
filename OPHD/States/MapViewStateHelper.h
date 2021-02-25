@@ -38,7 +38,7 @@ bool validStructurePlacement(TileMap* tilemap, NAS2D::Point<int> point);
 bool validLanderSite(Tile& t);
 bool landingSiteSuitable(TileMap* tilemap, NAS2D::Point<int> position);
 bool structureIsLander(StructureID id);
-bool inCommRange(NAS2D::Point<int> position);
+bool inCommRange(Tile* tile);
 bool selfSustained(StructureID id);
 
 Warehouse* getAvailableWarehouse(ProductType type, std::size_t count);

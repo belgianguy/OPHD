@@ -3,6 +3,7 @@
 #include "Core/Window.h"
 #include "Core/Button.h"
 #include "Core/CheckBox.h"
+#include "Core/ProgressBar.h"
 #include "IconGrid.h"
 
 #include "../Constants.h"
@@ -52,4 +53,6 @@ private:
 	Button btnApply{"Apply"};
 
 	CheckBox chkIdle{"Idle"};
+
+	ProgressBar prbProduction{50, 10, 50, 1};
 };

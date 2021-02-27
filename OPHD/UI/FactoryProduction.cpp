@@ -41,6 +41,9 @@ FactoryProduction::FactoryProduction() :
 	add(chkIdle, {mProductGrid.size().x + 12, 115});
 	chkIdle.size({50, 20});
 	chkIdle.click().connect(this, &FactoryProduction::chkIdleClicked);
+
+	add(prbProduction, {233, chkIdle.positionY()});
+	prbProduction.size({50,4});
 }
 
 
@@ -72,6 +75,8 @@ void FactoryProduction::productSelectionChanged(const IconGrid::IconGridItem* _i
 
 	mProduct = static_cast<ProductType>(_item->meta);
 	mProductCost = productCost(mProduct);
+
+	prbProduction.setPercentageCompleted((100 / mProductCost.turnsToBuild()) * mFactory->productionTurnsCompleted());
 }
 
 

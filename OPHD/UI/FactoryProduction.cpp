@@ -76,7 +76,7 @@ void FactoryProduction::productSelectionChanged(const IconGrid::IconGridItem* _i
 	mProduct = static_cast<ProductType>(_item->meta);
 	mProductCost = productCost(mProduct);
 
-	prbProduction.setPercentageCompleted((100 / mProductCost.turnsToBuild()) * mFactory->productionTurnsCompleted());
+	prbProduction.setValue((100 / mProductCost.turnsToBuild()) * mFactory->productionTurnsCompleted());
 }
 
 

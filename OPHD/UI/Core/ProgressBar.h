@@ -10,12 +10,12 @@
 class ProgressBar : public Control
 {
 public:
-	ProgressBar(int value, int maxValue, int padding);
+	ProgressBar(int value, int maxValue);
 
 	void update() override;
 	void setValue(int value);
 private:
 	int mValue;
 	int mMaxValue;
-	int mPadding;
+	int mPadding = 1;
 };

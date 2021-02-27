@@ -5,11 +5,10 @@
 #include <NAS2D/Utility.h>
 
 
-ProgressBar::ProgressBar(int value, int maxValue, int padding)
+ProgressBar::ProgressBar(int value, int maxValue)
 {
 	mValue = value;
 	mMaxValue = maxValue;
-	mPadding = padding;
 }
 
 void ProgressBar::update()

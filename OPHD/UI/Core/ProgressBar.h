@@ -17,13 +17,11 @@
 class ProgressBar : public Control
 {
 public:
-	ProgressBar(int width, int height, int percentageCompleted, int padding);
+	ProgressBar(int percentageCompleted, int padding);
 
 	void update() override;
 	void setPercentageCompleted(int percentageCompleted);
 private:
-	int mWidth;
-	int mHeight;
 	int mPercentageCompleted;
 	int mPadding;
 };

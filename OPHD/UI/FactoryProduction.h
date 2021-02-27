@@ -54,5 +54,5 @@ private:
 
 	CheckBox chkIdle{"Idle"};
 
-	ProgressBar prbProduction{50, 10, 50, 1};
+	ProgressBar prbProduction{50, 1};
 };

@@ -52,6 +52,8 @@ void FactoryProduction::clearProduct()
 	mProduct = ProductType::PRODUCT_NONE;
 	mProductCost.clear();
 	mProductGrid.clearSelection();
+
+	prbProduction.setEnabled(false);
 }
 
 
@@ -76,7 +78,9 @@ void FactoryProduction::productSelectionChanged(const IconGrid::IconGridItem* _i
 	mProduct = static_cast<ProductType>(_item->meta);
 	mProductCost = productCost(mProduct);
 
-	prbProduction.setValue((100 / mProductCost.turnsToBuild()) * mFactory->productionTurnsCompleted());
+	prbProduction.setEnabled(true);
+	prbProduction.setMaxValue(mProductCost.turnsToBuild());
+	prbProduction.setValue(mFactory->productionTurnsCompleted());
 }
 
 
@@ -152,6 +156,10 @@ void FactoryProduction::factory(Factory* newFactory)
 
 	mProduct = mFactory->productType();
 	mProductCost = productCost(mFactory->productType());
+
+	prbProduction.setEnabled(true);
+	prbProduction.setMaxValue(mProductCost.turnsToBuild());
+	prbProduction.setValue(mFactory->productionTurnsCompleted());
 }
 
 

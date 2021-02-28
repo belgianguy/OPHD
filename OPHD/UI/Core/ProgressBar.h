@@ -14,8 +14,11 @@ public:
 
 	void update() override;
 	void setValue(int value);
+	void setMaxValue(int maxValue);
+	void setEnabled(bool enabled);
 private:
 	int mValue;
 	int mMaxValue;
 	int mPadding = 1;
+	bool mEnabled = false;
 };

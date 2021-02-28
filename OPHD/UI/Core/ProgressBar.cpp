@@ -15,18 +15,35 @@ void ProgressBar::update()
 {
 	if (!visible()) { return; }
 
-	auto& renderer = NAS2D::Utility<NAS2D::Renderer>::get();
-	renderer.drawBox(NAS2D::Rectangle{mRect.startPoint().x, mRect.startPoint().y, mRect.width, mRect.height}, NAS2D::Color{0, 185, 0});
-
-	if (mValue > 0)
+	if(mMaxValue <= 0)
 	{
-		const auto barWidth = static_cast<int>(static_cast<float>(mRect.width - (mPadding + mPadding)) * (mValue / mMaxValue));
-		renderer.drawBoxFilled(NAS2D::Rectangle{mRect.startPoint().x + mPadding, mRect.startPoint().y + mPadding + 1, barWidth - 1, mRect.height - (mPadding + mPadding) - 1}, NAS2D::Color{0, 100, 0});
+		throw std::runtime_error("ProgressBar::update(): ProgressBar provided with an max value less than or equal to zero.");;
+	}
+
+	if(mEnabled) {
+		auto& renderer = NAS2D::Utility<NAS2D::Renderer>::get();
+		renderer.drawBox(NAS2D::Rectangle{mRect.startPoint().x, mRect.startPoint().y, mRect.width, mRect.height}, NAS2D::Color{0, 185, 0});
+
+		if (mValue > 0)
+		{
+			const auto barWidth = static_cast<int>(static_cast<float>(mValue * (mRect.width - (mPadding + mPadding))) / mMaxValue);
+			renderer.drawBoxFilled(NAS2D::Rectangle{mRect.startPoint().x + mPadding, mRect.startPoint().y + mPadding + 1, barWidth - 1, mRect.height - (mPadding + mPadding) - 1}, NAS2D::Color{0, 100, 0});
+		}
 	}
 }
 
 void ProgressBar::setValue(int value)
 {
 	mValue = value;
+}
+
+void ProgressBar::setMaxValue(int maxValue)
+{
+	mMaxValue = maxValue;
+}
+
+void ProgressBar::setEnabled(bool enable)
+{
+	mEnabled = enable;
 }
 

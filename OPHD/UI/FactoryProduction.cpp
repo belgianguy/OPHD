@@ -43,7 +43,7 @@ FactoryProduction::FactoryProduction() :
 	chkIdle.click().connect(this, &FactoryProduction::chkIdleClicked);
 
 	add(prbProduction, {233, chkIdle.positionY()});
-	prbProduction.size({50,4});
+	prbProduction.size({50,8});
 }
 
 

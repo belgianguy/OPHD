@@ -15,12 +15,8 @@ void ProgressBar::update()
 {
 	if (!visible()) { return; }
 
-	if(mMaxValue <= 0)
-	{
-		throw std::runtime_error("ProgressBar::update(): ProgressBar provided with an max value less than or equal to zero.");;
-	}
+	if(mEnabled && mMaxValue > 0) {
 
-	if(mEnabled) {
 		auto& renderer = NAS2D::Utility<NAS2D::Renderer>::get();
 		renderer.drawBox(NAS2D::Rectangle{mRect.startPoint().x, mRect.startPoint().y, mRect.width, mRect.height}, NAS2D::Color{0, 185, 0});
 

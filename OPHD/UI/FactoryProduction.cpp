@@ -75,12 +75,26 @@ void FactoryProduction::productSelectionChanged(const IconGrid::IconGridItem* _i
 		return;
 	}
 
+	bool productChanged = static_cast<ProductType>(_item->meta) != mProduct;
+
+	if(!productChanged) {
+		return;
+	}
+
+	if (productChanged && mFactory->productionTurnsCompleted() > 0 && !doYesNoMessage("Change Production", "Your current product is not yet complete, already applied resources will be lost! Continue?"))
+	{
+		mProductGrid.selection_meta(static_cast<int>(mFactory->productType()));
+		return;
+	}
+
 	mProduct = static_cast<ProductType>(_item->meta);
 	mProductCost = productCost(mProduct);
 
 	prbProduction.setEnabled(true);
 	prbProduction.setMaxValue(mProductCost.turnsToBuild());
 	prbProduction.setValue(mFactory->productionTurnsCompleted());
+
+	mFactory->productionResetTurns();
 }
 
 
@@ -166,6 +180,11 @@ void FactoryProduction::factory(Factory* newFactory)
 void FactoryProduction::update()
 {
 	if (!visible()) { return; }
+
+	if (mFactory->productType() != ProductType::PRODUCT_NONE)
+	{
+		prbProduction.setValue(mFactory->productionTurnsCompleted());
+	}
 
 	Window::update();
 

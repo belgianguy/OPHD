@@ -3,6 +3,7 @@
 #include "Core/Window.h"
 #include "Core/Button.h"
 #include "Core/CheckBox.h"
+#include "Core/Table.h"
 #include "IconGrid.h"
 
 #include "../Constants.h"
@@ -52,4 +53,13 @@ private:
 	Button btnApply{"Apply"};
 
 	CheckBox chkIdle{"Idle"};
+
+	Table mTable{2, 2};
+
+	CheckBox chkOne{"CheckBox One"};
+	CheckBox chkTwo{"CheckBox Two"};
+
+	Button btnOne{"Button One"};
+	Button btnTwo{"Button Two"};
+
 };

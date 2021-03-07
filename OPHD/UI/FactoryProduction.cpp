@@ -41,6 +41,24 @@ FactoryProduction::FactoryProduction() :
 	add(chkIdle, {mProductGrid.size().x + 12, 115});
 	chkIdle.size({50, 20});
 	chkIdle.click().connect(this, &FactoryProduction::chkIdleClicked);
+
+	add(mTable, {mProductGrid.size().x + 30, 115});
+	mTable.size({50,20});
+	mTable.add(chkOne, {0,0});
+	chkOne.size({50, 20});
+
+
+
+	//mTable.add(chkTwo, {1,0});
+	//chkTwo.size({50, 20});
+	//mTable.add(btnOne, {0,1});
+	//btnOne.size({40, 20});
+	//mTable.add(btnTwo, {1,1});
+	//btnTwo.size({40, 20});
+
+
+	mTable.print();
+
 }
 
 

@@ -4,11 +4,12 @@ using namespace NAS2D;
 
 Table::Table(int columns, int rows)
 {
+	mControls.resize(columns * rows);
 	mColumns = columns;
 	mRows = rows;
 }
 
-void Table::add(Control& control, NAS2D::Point<int> location)
+void Table::add(Control &control, NAS2D::Point<int> location)
 {
 	// 0,0   1,0
 	// 0,1   1,1
@@ -20,11 +21,16 @@ void Table::add(Control& control, NAS2D::Point<int> location)
 	 * And we have a text in the right column, the widest is 140px
 	 */
 
+	float cellWidth = size().x / mColumns;
+	float cellHeight = size().y / mRows;
+
 	if (location.x >= 0 && location.x < mColumns && location.y >= 0 && location.y < mRows) {
-		control.position(mRect.startPoint());
+		std::cout << "Pos before: (" << control.position().x << ", " << control.position().y << ")" << std::endl;
+		control.position(mRect.startPoint() + NAS2D::Vector{location.x * control.size().x, location.y * control.size().y});
+		std::cout << "Pos after: (" << control.position().x << ", " << control.position().y << ")" << std::endl;
 		control.visible(visible());
 		control.hasFocus(true);
-		mControls.push_back(std::make_pair(&control, location));
+		mControls[mColumns * location.x + location.y] = &control;
 	}
 }
 
@@ -32,9 +38,12 @@ void Table::update()
 {
 	if (!visible()) { return; }
 
-	for (auto pair : mControls)
+	for(auto control : mControls)
 	{
-		pair.first->update();
+		if (control != nullptr)
+		{
+			control->update();
+		}
 	}
 }
 
@@ -42,30 +51,33 @@ void Table::positionChanged(int dX, int dY)
 {
 	Control::positionChanged(dX, dY);
 
-	for (auto pair : mControls)
+	for(auto control : mControls)
 	{
-		pair.first->position(pair.first->position() + NAS2D::Vector{dX, dY});
+		if (control != nullptr)
+		{
+			control->position(control->position() + NAS2D::Vector{dX, dY});
+		}
 	}
 }
 
 void Table::print()
 {
 	std::cout << "Table Rectangle start" << std::endl;
-	std::cout << mRect.x << std::endl;
-	std::cout << mRect.y << std::endl;
-	std::cout << mRect.width << std::endl;
-	std::cout << mRect.height << std::endl;
+	std::cout << "Start (" << mRect.x << ", " << mRect.y << ")" << std::endl;
+	std::cout << "Width: " << mRect.width << std::endl;
+	std::cout << "Height: " << mRect.height << std::endl;
 	std::cout << "Table Rectangle end" << std::endl;
 
-	for (auto control : mControls)
+	for(auto control : mControls)
 	{
-		std::cout << "Control Rectangle start" << std::endl;
-		std::cout << control.first->rect().x << std::endl;
-		std::cout << control.first->rect().y << std::endl;
-		std::cout << control.first->size().x << std::endl;
-		std::cout << control.first->size().y << std::endl;
-		std::cout << control.second.x << std::endl;
-		std::cout << control.second.y << std::endl;
-		std::cout << "Control Rectangle end" << std::endl;
+		if (control != nullptr)
+		{
+			std::cout << "Control Rectangle start" << std::endl;
+			std::cout << control->rect().x << std::endl;
+			std::cout << control->rect().y << std::endl;
+			std::cout << control->size().x << std::endl;
+			std::cout << control->size().y << std::endl;
+			std::cout << "Control Rectangle end" << std::endl;
+		}
 	}
 }

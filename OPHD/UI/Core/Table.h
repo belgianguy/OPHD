@@ -9,7 +9,7 @@
 
 #include <iostream>
 
-
+using namespace std;
 
 class Table : public Control
 {
@@ -26,5 +26,5 @@ protected:
 private:
 	int mColumns;
 	int mRows;
-	std::vector<std::pair<Control*, NAS2D::Point<int>>> mControls;
+	std::vector<Control*> mControls;
 };

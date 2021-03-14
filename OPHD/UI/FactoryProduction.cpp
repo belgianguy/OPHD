@@ -42,25 +42,40 @@ FactoryProduction::FactoryProduction() :
 	chkIdle.size({50, 20});
 	chkIdle.click().connect(this, &FactoryProduction::chkIdleClicked);
 
-	add(mTable, {mProductGrid.size().x + 30, 115});
-	mTable.size({100,40});
+	rbOne.size({40,13});
+	rbTwo.size({40,13});
+	rbThree.size({40,13});
+
+	add(rbgOptions, {mProductGrid.size().x + 12, 25});
+	rbgOptions.size({50,80});
+	rbgOptions.add(rbOne);
+	rbgOptions.add(rbTwo);
+	rbgOptions.add(rbThree);
+
+	/*
+	add(mTable, {mProductGrid.size().x + 12, 25}); //{mRect.startPoint() + NAS2D::Vector{constants::MARGIN * 2 + mProductGrid.size().x, 25}
+	mTable.size({50,80});
 
 	chkOne.size({50, 20});
 	mTable.add(chkOne, {0,0});
 
 	chkTwo.size({50, 20});
-	mTable.add(chkTwo, {1,0});
+	mTable.add(chkTwo, {0,1});
+
+	chkThree.size({50, 20});
+	mTable.add(chkThree, {0,2});
 
 	btnOne.size({50, 20});
-	mTable.add(btnOne, {0,1});
+	mTable.add(btnOne, {1,0});
 
 	btnTwo.size({50, 20});
 	mTable.add(btnTwo, {1,1});
 
-
+	btnThree.size({50, 20});
+	mTable.add(btnThree, {1,2});
 
 	mTable.print();
-
+	*/
 }
 
 
@@ -176,6 +191,7 @@ void FactoryProduction::update()
 
 	Window::update();
 
+	/*
 	StringTable stringTable(2, 5);
 	stringTable.position(mRect.startPoint() + NAS2D::Vector{constants::MARGIN * 2 + mProductGrid.size().x, 25});
 	stringTable.setColumnJustification(1, StringTable::Justification::Right);
@@ -200,4 +216,5 @@ void FactoryProduction::update()
 
 	stringTable.computeRelativeCellPositions();
 	stringTable.draw(Utility<Renderer>::get());
+	*/
 }

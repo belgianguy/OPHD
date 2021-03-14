@@ -14,7 +14,7 @@ using namespace std;
 class Table : public Control
 {
 public:
-	Table(int columns, int rows);
+	Table(int rows, int columns);
 
 	void add(Control& control, NAS2D::Point<int> location);
 	void update() override;

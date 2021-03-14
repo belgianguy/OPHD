@@ -33,7 +33,5 @@ protected:
 	void positionChanged(int dX, int dY) override;
 
 	virtual void onMouseDown(NAS2D::EventHandler::MouseButton button, int x, int y);
-
-private:
 	std::vector<Control*> mControls;
 };

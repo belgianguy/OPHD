@@ -1,6 +1,6 @@
 #include "RadioButton.h"
 
-#include "UIContainer.h"
+#include "RadioButtonGroup.h"
 #include "../../Cache.h"
 #include "../../Constants.h"
 
@@ -44,7 +44,7 @@ bool RadioButton::checked() const
 	return mChecked;
 }
 
-void RadioButton::parentContainer(UIContainer* parent)
+void RadioButton::parentContainer(RadioButtonGroup* parent)
 {
 	mParentContainer = parent;
 }

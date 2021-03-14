@@ -10,7 +10,7 @@
 #include <string>
 
 
-class UIContainer;
+class RadioButtonGroup;
 
 
 class RadioButton : public TextControl
@@ -18,7 +18,7 @@ class RadioButton : public TextControl
 public:
 	using ClickCallback = NAS2D::Signals::Signal<>;
 
-	RadioButton(std::string newText = "");
+	RadioButton(std::string newText);
 	~RadioButton() override;
 
 	void checked(bool toggle);
@@ -37,15 +37,15 @@ protected:
 	void onSizeChanged() override;
 	void onTextChanged() override;
 
-	void parentContainer(UIContainer* parent);
+	void parentContainer(RadioButtonGroup* parent);
 
 private:
 	const NAS2D::Font& mFont;
 	const NAS2D::Image& mSkin;
 	Label mLabel;
 	ClickCallback mCallback; /**< Object to notify when the Button is activated. */
-	UIContainer* mParentContainer{nullptr};
+	RadioButtonGroup* mParentContainer{nullptr};
 	bool mChecked{false};
 
-	friend class UIContainer;
+	friend class RadioButtonGroup;
 };

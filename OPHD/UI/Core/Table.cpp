@@ -2,11 +2,11 @@
 
 using namespace NAS2D;
 
-Table::Table(int columns, int rows)
+Table::Table(int rows, int columns)
 {
-	mControls.resize(columns * rows);
-	mColumns = columns;
+	mControls.resize(rows * columns);
 	mRows = rows;
+	mColumns = columns;
 }
 
 void Table::add(Control &control, NAS2D::Point<int> location)
@@ -26,17 +26,22 @@ void Table::add(Control &control, NAS2D::Point<int> location)
 
 	if (location.x >= 0 && location.x < mColumns && location.y >= 0 && location.y < mRows) {
 		std::cout << "Pos before: (" << control.position().x << ", " << control.position().y << ")" << std::endl;
-		control.position(mRect.startPoint() + NAS2D::Vector{location.x * control.size().x, location.y * control.size().y});
+		control.position(mRect.startPoint() + NAS2D::Vector{location.x * cellWidth, location.y * cellHeight});
 		std::cout << "Pos after: (" << control.position().x << ", " << control.position().y << ")" << std::endl;
 		control.visible(visible());
 		control.hasFocus(true);
-		mControls[mColumns * location.x + location.y] = &control;
+		int index = mColumns * location.y + location.x;
+		mControls[index] = &control;
 	}
 }
 
 void Table::update()
 {
 	if (!visible()) { return; }
+
+
+	const auto displayRect = Rectangle<int>::Create(position(), mRect.size());
+	Utility<Renderer>::get().drawBoxFilled(displayRect, {255, 0, 0});
 
 	for(auto control : mControls)
 	{

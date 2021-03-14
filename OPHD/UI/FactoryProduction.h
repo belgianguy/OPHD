@@ -4,6 +4,8 @@
 #include "Core/Button.h"
 #include "Core/CheckBox.h"
 #include "Core/Table.h"
+#include "Core/RadioButton.h"
+#include "Core/RadioButtonGroup.h"
 #include "IconGrid.h"
 
 #include "../Constants.h"
@@ -54,12 +56,19 @@ private:
 
 	CheckBox chkIdle{"Idle"};
 
-	Table mTable{2, 2};
+	Table mTable{3, 2};
 
-	CheckBox chkOne{"CheckBox One"};
-	CheckBox chkTwo{"CheckBox Two"};
+	CheckBox chkOne{"One"};
+	CheckBox chkTwo{"Two"};
+	CheckBox chkThree{"Three"};
 
-	Button btnOne{"Button One"};
-	Button btnTwo{"Button Two"};
+	Button btnOne{"One"};
+	Button btnTwo{"Two"};
+	Button btnThree{"Three"};
+
+	RadioButtonGroup rbgOptions{};
+	RadioButton rbOne{"One"};
+	RadioButton rbTwo{"Two"};
+	RadioButton rbThree{"Three"};
 
 };

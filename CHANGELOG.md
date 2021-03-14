@@ -7,10 +7,12 @@ Introduces communcations range overlays, additional GUI quality of life improvem
 
 ### Added
 - Tile highlight overlays for communication ranges
+- Tile highlight overlays for truck routes
 - Robot Inspector Window -- allows for changing robot orders and issuing robot self destruct
 
 ### Changed
 - FileIO Window now has a 'delete' button so save games can be deleted from within the game
+- Change order of food counting and population update so that landing cargo/colonist landers at the same time doesn't result in an immediate game over
 
 ### Fixed
 - Fixed some computations in the population simulation that caused subtle behavior issues

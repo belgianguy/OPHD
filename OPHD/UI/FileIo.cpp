@@ -100,7 +100,7 @@ void FileIo::onKeyDown(EventHandler::KeyCode key, EventHandler::KeyModifier /*mo
 void FileIo::setMode(FileOperation fileOp)
 {
 	mMode = fileOp; 
-	text(mMode == FileOperation::FILE_LOAD ? constants::WINDOW_FILEIO_TITLE_LOAD : constants::WINDOW_FILEIO_TITLE_SAVE);
+	title(mMode == FileOperation::FILE_LOAD ? constants::WINDOW_FILEIO_TITLE_LOAD : constants::WINDOW_FILEIO_TITLE_SAVE);
 	btnFileOp.text(mMode == FileOperation::FILE_LOAD ? constants::WINDOW_FILEIO_LOAD : constants::WINDOW_FILEIO_SAVE);
 }
 
@@ -172,11 +172,14 @@ void FileIo::btnFileIoClicked()
 
 void FileIo::btnFileDeleteClicked()
 {
-	std::string filename = constants::SAVE_GAME_PATH + txtFileName.text()+ ".xml";
+	std::string filename = constants::SAVE_GAME_PATH + txtFileName.text() + ".xml";
 
 	try
 	{
-		Utility<Filesystem>::get().del(filename);
+		if(doYesNoMessage(constants::WINDOW_FILEIO_TITLE_DELETE, "Are you sure you want to delete " + txtFileName.text() + "?"))
+		{
+			Utility<Filesystem>::get().del(filename);
+		}
 	}
 	catch(const std::exception& e)
 	{

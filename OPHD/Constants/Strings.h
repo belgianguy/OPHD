@@ -189,6 +189,7 @@ namespace constants
 
 	const std::string WINDOW_FILEIO_TITLE_LOAD = "Load Game";
 	const std::string WINDOW_FILEIO_TITLE_SAVE = "Save Game";
+	const std::string WINDOW_FILEIO_TITLE_DELETE = "Delete Game";
 	const std::string WINDOW_FILEIO_LOAD = "Load";
 	const std::string WINDOW_FILEIO_SAVE = "Save";
 	const std::string WINDOW_FILEIO_DELETE = "Delete";
@@ -215,6 +216,7 @@ namespace constants
 	const std::string ToolTipBtnHeightmap = "Toggles display of the Terrain Height Map";
 	const std::string ToolTipBtnConnectedness = "Toggles display of the Tile Connection Overlay";
 	const std::string ToolTipBtnCommRange = "Toggles display of the Communications Range Overlay";
+	const std::string ToolTipBtnRoutes = "Toggles display of the Trucking Routes Overlay";
 	const std::string ToolTipRefinedResources = "Breakdown of storage levels for Smelted Resources";
 	const std::string ToolTipResourceStorage = "Smelted Resources Storage. Current Level / Capacity";
 	const std::string ToolTipFoodStorage = "Food Storage. Current Level / Capacity";

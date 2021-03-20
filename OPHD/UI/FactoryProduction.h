@@ -4,7 +4,6 @@
 #include "Core/Button.h"
 #include "Core/CheckBox.h"
 #include "Core/Table.h"
-#include "Core/RadioButton.h"
 #include "Core/RadioButtonGroup.h"
 #include "IconGrid.h"
 
@@ -67,8 +66,4 @@ private:
 	Button btnThree{"Three"};
 
 	RadioButtonGroup rbgOptions{};
-	RadioButton rbOne{"One"};
-	RadioButton rbTwo{"Two"};
-	RadioButton rbThree{"Three"};
-
 };

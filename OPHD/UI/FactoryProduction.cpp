@@ -42,15 +42,14 @@ FactoryProduction::FactoryProduction() :
 	chkIdle.size({50, 20});
 	chkIdle.click().connect(this, &FactoryProduction::chkIdleClicked);
 
-	rbOne.size({40,13});
-	rbTwo.size({40,13});
-	rbThree.size({40,13});
-
 	add(rbgOptions, {mProductGrid.size().x + 12, 25});
 	rbgOptions.size({50,80});
-	rbgOptions.add(rbOne);
-	rbgOptions.add(rbTwo);
-	rbgOptions.add(rbThree);
+	std::string labelOne = "One";
+	std::string labelTwo = "Two";
+	std::string labelThree = "Three";
+	rbgOptions.add(this,  &FactoryProduction::chkIdleClicked, labelOne);
+	rbgOptions.add(this,  &FactoryProduction::chkIdleClicked, labelTwo);
+	//rbgOptions.add(this,  &FactoryProduction::chkIdleClicked, labelThree);
 
 	/*
 	add(mTable, {mProductGrid.size().x + 12, 25}); //{mRect.startPoint() + NAS2D::Vector{constants::MARGIN * 2 + mProductGrid.size().x, 25}
@@ -138,6 +137,7 @@ void FactoryProduction::btnClearSelectionClicked()
 
 void FactoryProduction::chkIdleClicked()
 {
+	std::cout << "function called!" << std::endl;
 	if (!mFactory) { return; }
 
 	mFactory->forceIdle(chkIdle.checked());

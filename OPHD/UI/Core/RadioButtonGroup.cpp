@@ -156,8 +156,6 @@ void RadioButtonGroup::RadioButton::update()
 	const auto unselectedIconRect = NAS2D::Rectangle{0, 0, 13, 13};
 	const auto selectedIconRect = NAS2D::Rectangle{13, 0, 13, 13};
 
-	renderer.drawCircleFilled(position() + NAS2D::Vector{6.5,6.5}, 6.5, Color::Black, 10);
-
 	renderer.drawSubImage(mSkin, position(), (mChecked ? selectedIconRect : unselectedIconRect));
 	renderer.drawText(mFont, text(), position() + NAS2D::Vector{20, 0}, NAS2D::Color::White);
 }

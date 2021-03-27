@@ -46,14 +46,6 @@ void RadioButtonGroup::positionChanged(int dX, int dY)
 	}
 }
 
-RadioButtonGroup::RadioButton::RadioButton(std::string newText) :
-	mFont{fontCache.load(constants::FONT_PRIMARY, constants::FONT_PRIMARY_NORMAL)},
-	mSkin{imageCache.load("ui/skin/radio.png")},
-	mLabel{newText}
-{
-	Utility<EventHandler>::get().mouseButtonDown().connect(this, &RadioButton::onMouseDown);
-}
-
 RadioButtonGroup::RadioButton::RadioButton(std::string newText, RadioButtonGroup* parentContainer):
 	mFont{fontCache.load(constants::FONT_PRIMARY, constants::FONT_PRIMARY_NORMAL)},
 	mSkin{imageCache.load("ui/skin/radio.png")},

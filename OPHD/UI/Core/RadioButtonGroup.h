@@ -34,7 +34,6 @@ class RadioButtonGroup: public UIContainer {
 			public:
 				using ClickCallback = NAS2D::Signals::Signal<>;
 
-				RadioButton(std::string newText);
 				RadioButton(std::string newText, RadioButtonGroup* parentContainer);
 				~RadioButton() override;
 

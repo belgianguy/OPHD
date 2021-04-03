@@ -14,18 +14,21 @@
 using namespace NAS2D;
 
 
-RadioButtonGroup::RadioButton::RadioButton(std::string newText, RadioButtonGroup* parentContainer) :
+RadioButtonGroup::RadioButton::RadioButton(std::string newText, RadioButtonGroup* parentContainer, RBGDelegate delegate) :
 	mFont{fontCache.load(constants::FONT_PRIMARY, constants::FONT_PRIMARY_NORMAL)},
 	mSkin{imageCache.load("ui/skin/checkbox.png")},
 	mLabel{newText},
 	mParentContainer{parentContainer}
 {
-	Utility<EventHandler>::get().mouseButtonDown().connect(this, &RadioButton::onMouseDown);
+	mRbgDelegate = delegate;
+	this->stateChanged().connect(mRbgDelegate);
+	//Utility<EventHandler>::get().mouseButtonDown().connect(this, &RadioButton::onMouseDown);
 }
 
 RadioButtonGroup::RadioButton::~RadioButton()
 {
-	Utility<EventHandler>::get().mouseButtonDown().disconnect(this, &RadioButton::onMouseDown);
+	this->stateChanged().disconnect(mRbgDelegate);
+	//Utility<EventHandler>::get().mouseButtonDown().disconnect(this, &RadioButton::onMouseDown);
 }
 
 /**

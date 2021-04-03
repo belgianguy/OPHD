@@ -6,9 +6,9 @@
 #include <NAS2D/Signal.h>
 #include <NAS2D/EventHandler.h>
 #include <NAS2D/Resources/Image.h>
+#include <NAS2D/Delegate.h>
 
 #include <string>
-
 
 class RadioButtonGroup : public Control
 {
@@ -24,8 +24,8 @@ public:
 
     void add(const std::string& name)
     {
-        mRadioButtons.emplace_back(name, this);
-        mRadioButtons.back().stateChanged().connect(this, &RadioButtonGroup::radioButtonStateChanged);
+        mRadioButtons.emplace_back(name, this, NAS2D::MakeDelegate(this, &RadioButtonGroup::radioButtonStateChanged));
+        //mRadioButtons.back().stateChanged().connect(this, &RadioButtonGroup::radioButtonStateChanged);
     }
 
 private:
@@ -33,9 +33,10 @@ private:
     {
     public:
     	//using ClickCallback = NAS2D::Signals::Signal<>;
-    	using StateChanged = NAS2D::Signals::Signal<RadioButton&>;
+    	using StateChanged = NAS2D::Signals::Signal<RadioButtonGroup::RadioButton&>;
+    	using RBGDelegate = NAS2D::Signals::Signal<RadioButtonGroup::RadioButton&>::DelegateType;
 
-    	RadioButton(std::string newText, RadioButtonGroup* parentContainer);
+    	RadioButton(std::string newText, RadioButtonGroup* parentContainer, RBGDelegate delegate);
     	~RadioButton() override;
 
     	void checked(bool toggle);
@@ -70,6 +71,7 @@ private:
     	void onMouseDown(NAS2D::EventHandler::MouseButton button, int x, int y);
 
     	StateChanged mStateChanged;
+    	RBGDelegate mRbgDelegate;
 
     	friend class UIContainer;
     };

@@ -81,7 +81,10 @@ void RadioButton::onMouseDown(EventHandler::MouseButton button, int x, int y)
 	if (button == EventHandler::MouseButton::Left && mRect.contains(Point{x, y}))
 	{
 		click();
-		mCallback();
+		//mCallback();
+		// do test here for click in area
+		//assuming clicked in area:
+		mStateChanged(*this);
 	}
 }
 

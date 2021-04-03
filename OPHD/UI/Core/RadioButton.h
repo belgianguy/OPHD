@@ -17,6 +17,7 @@ class RadioButton : public TextControl
 {
 public:
 	using ClickCallback = NAS2D::Signals::Signal<>;
+	using StateChanged = NAS2D::Signals::Signal<RadioButton&>;
 
 	RadioButton(std::string newText = "");
 	~RadioButton() override;
@@ -31,8 +32,11 @@ public:
 
 	void update() override;
 
+
+	StateChanged& stateChanged() { return mStateChanged; }
+
 protected:
-	void onMouseDown(NAS2D::EventHandler::MouseButton button, int x, int y);
+	//void onMouseDown(NAS2D::EventHandler::MouseButton button, int x, int y);
 
 	void onSizeChanged() override;
 	void onTextChanged() override;
@@ -46,6 +50,10 @@ private:
 	ClickCallback mCallback; /**< Object to notify when the Button is activated. */
 	UIContainer* mParentContainer{nullptr};
 	bool mChecked{false};
+
+	void onMouseDown(NAS2D::EventHandler::MouseButton button, int x, int y);
+
+	StateChanged mStateChanged;
 
 	friend class UIContainer;
 };

@@ -43,6 +43,10 @@ FactoryProduction::FactoryProduction() :
 	chkIdle.click().connect(this, &FactoryProduction::chkIdleClicked);
 
 	rbg.add("One");
+	rbg.add("Two");
+	rbg.add("Three");
+	add(rbg, {mProductGrid.size().x + 12, 20});
+	rbg.size({100,100});
 }
 
 
@@ -158,6 +162,7 @@ void FactoryProduction::update()
 
 	Window::update();
 
+	/*
 	StringTable stringTable(2, 5);
 	stringTable.position(mRect.startPoint() + NAS2D::Vector{constants::MARGIN * 2 + mProductGrid.size().x, 25});
 	stringTable.setColumnJustification(1, StringTable::Justification::Right);
@@ -182,4 +187,5 @@ void FactoryProduction::update()
 
 	stringTable.computeRelativeCellPositions();
 	stringTable.draw(Utility<Renderer>::get());
+	*/
 }

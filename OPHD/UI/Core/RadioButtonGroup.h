@@ -55,8 +55,6 @@ private:
     {
     public:
     	using ClickCallback = NAS2D::Signals::Signal<>;
-    	using StateChanged = NAS2D::Signals::Signal<RadioButtonGroup::RadioButton&>;
-    	using RBGDelegate = NAS2D::Signals::Signal<RadioButtonGroup::RadioButton&>::DelegateType;
 
     	RadioButton(std::string newText, RadioButtonGroup* parentContainer, NAS2D::DelegateX<void> delegate);
     	~RadioButton() override;
@@ -70,8 +68,6 @@ private:
     	ClickCallback& click();
 
     	void update() override;
-
-    	ClickCallback& stateChanged() { return mStateChanged; }
 
     protected:
 
@@ -90,7 +86,6 @@ private:
 
     	void onMouseDown(NAS2D::EventHandler::MouseButton button, int x, int y);
 
-    	ClickCallback mStateChanged;
     	NAS2D::DelegateX<void> mRbgDelegate;
     };
 

@@ -6,6 +6,8 @@
 #include <NAS2D/Utility.h>
 #include <NAS2D/Renderer/Renderer.h>
 
+#include <iostream>
+
 
 using namespace NAS2D;
 
@@ -42,11 +44,14 @@ FactoryProduction::FactoryProduction() :
 	chkIdle.size({50, 20});
 	chkIdle.click().connect(this, &FactoryProduction::chkIdleClicked);
 
-	rbg.add("One");
-	rbg.add("Two");
-	rbg.add("Three");
-	add(rbg, {mProductGrid.size().x + 12, 20});
-	rbg.size({100,100});
+	std::string labelOne = "One";
+	std::string labelTwo = "Two";
+	std::string labelThree = "Three";
+	add(rbg, {mProductGrid.size().x + 12, 25});
+	rbg.size({50,50});
+	rbg.add(this, &FactoryProduction::chkIdleClicked, labelOne);
+	rbg.add(this, &FactoryProduction::chkIdleClicked, labelTwo, true);
+	rbg.add(this, &FactoryProduction::chkIdleClicked, labelThree);
 }
 
 
@@ -109,6 +114,8 @@ void FactoryProduction::btnClearSelectionClicked()
 
 void FactoryProduction::chkIdleClicked()
 {
+	std::cout << "chkIdleClicked()" << std::endl;
+
 	if (!mFactory) { return; }
 
 	mFactory->forceIdle(chkIdle.checked());

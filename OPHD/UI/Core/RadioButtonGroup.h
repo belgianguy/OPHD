@@ -2,41 +2,63 @@
 
 #include "TextControl.h"
 #include "Label.h"
+#include "RadioButtonGroup.h"
 
 #include <NAS2D/Signal.h>
 #include <NAS2D/EventHandler.h>
 #include <NAS2D/Resources/Image.h>
 #include <NAS2D/Delegate.h>
 
+#include "../../Cache.h"
+#include "../../Constants.h"
+
+#include <NAS2D/Utility.h>
+#include <NAS2D/Renderer/Renderer.h>
+#include <NAS2D/MathUtils.h>
+
+#include <algorithm>
+
 #include <string>
+
+#include <iostream>
+
+using namespace NAS2D;
 
 class RadioButtonGroup : public Control
 {
 public:
-    RadioButtonGroup() = default;
-    ~RadioButtonGroup()
+	~RadioButtonGroup();
+    template<typename X, typename Y, typename ... Params>
+    void add(Y * obj, void (X::*func)(Params...), const std::string& name, bool checked = false)
     {
-        for(auto& radioButton : mRadioButtons)
-        {
-            radioButton.stateChanged().disconnect(this, &RadioButtonGroup::radioButtonStateChanged);
-        }
+        RadioButton* rb = new RadioButton(name, this, NAS2D::MakeDelegate(obj, func));
+
+    	//mRadioButtons.emplace_back(name, this, NAS2D::MakeDelegate(this, &RadioButtonGroup::radioButtonStateChanged));
+    	mRadioButtons.push_back(rb);
+    	NAS2D::Vector<int> offset = {0, 13};
+        rb->visible(visible());
+		offset.y = mRadioButtons.size() * offset.y;
+		rb->position(mRect.startPoint() + offset);
+		rb->checked(checked);
+		if(checked) { rb->click(); }
+
     }
 
-    void add(const std::string& name)
-    {
-        mRadioButtons.emplace_back(name, this, NAS2D::MakeDelegate(this, &RadioButtonGroup::radioButtonStateChanged));
-        //mRadioButtons.back().stateChanged().connect(this, &RadioButtonGroup::radioButtonStateChanged);
-    }
+    void positionChanged(int dX, int dY) override;
+    void update() override;
+
+    void clearSelection();
+    bool hasOneSelectedItem();
 
 private:
     class RadioButton : public TextControl
     {
     public:
-    	//using ClickCallback = NAS2D::Signals::Signal<>;
+    	using ClickCallback = NAS2D::Signals::Signal<>;
     	using StateChanged = NAS2D::Signals::Signal<RadioButtonGroup::RadioButton&>;
     	using RBGDelegate = NAS2D::Signals::Signal<RadioButtonGroup::RadioButton&>::DelegateType;
 
-    	RadioButton(std::string newText, RadioButtonGroup* parentContainer, RBGDelegate delegate);
+    	RadioButton(std::string newText, RadioButtonGroup* parentContainer, NAS2D::DelegateX<void> delegate);
     	~RadioButton() override;
 
     	void checked(bool toggle);
@@ -45,15 +67,13 @@ private:
     	void text(const std::string& text);
     	const std::string& text() const;
 
-    	//ClickCallback& click();
+    	ClickCallback& click();
 
     	void update() override;
 
-
-    	StateChanged& stateChanged() { return mStateChanged; }
+    	ClickCallback& stateChanged() { return mStateChanged; }
 
     protected:
-    	//void onMouseDown(NAS2D::EventHandler::MouseButton button, int x, int y);
 
     	void onSizeChanged() override;
     	void onTextChanged() override;
@@ -64,22 +84,15 @@ private:
     	const NAS2D::Font& mFont;
     	const NAS2D::Image& mSkin;
     	Label mLabel;
-    	//ClickCallback mCallback; /**< Object to notify when the Button is activated. */
+    	ClickCallback mCallback; /**< Object to notify when the Button is activated. */
     	RadioButtonGroup* mParentContainer{nullptr};
     	bool mChecked{false};
 
     	void onMouseDown(NAS2D::EventHandler::MouseButton button, int x, int y);
 
-    	StateChanged mStateChanged;
-    	RBGDelegate mRbgDelegate;
-
-    	friend class UIContainer;
+    	ClickCallback mStateChanged;
+    	NAS2D::DelegateX<void> mRbgDelegate;
     };
 
-    void radioButtonStateChanged(RadioButton& rb)
-	{
-		// Do stuff here, reference to RadioButton is perhaps optional?
-	}
-
-	std::vector<RadioButton> mRadioButtons;
+	std::vector<RadioButton*> mRadioButtons;
 };

@@ -54,5 +54,5 @@ private:
 
 	CheckBox chkIdle{"Idle"};
 
-	RadioButtonGroup rbg;
+	RadioButtonGroup rbg{};
 };

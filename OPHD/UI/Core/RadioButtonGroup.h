@@ -31,16 +31,16 @@ public:
     template<typename X, typename Y, typename ... Params>
     void add(Y * obj, void (X::*func)(Params...), const std::string& name, bool checked = false)
     {
-        RadioButton* rb = new RadioButton(name, this, NAS2D::MakeDelegate(obj, func));
+        //RadioButton* rb = new RadioButton(name, this, NAS2D::MakeDelegate(obj, func));
         NAS2D::Vector<int> offset = {0, 13};
         offset.y = mRadioButtons.size() * offset.y;
 
-    	//mRadioButtons.emplace_back(name, this, NAS2D::MakeDelegate(this, &RadioButtonGroup::radioButtonStateChanged));
-    	mRadioButtons.push_back(rb);
-        rb->visible(visible());
-		rb->position(mRect.startPoint() + offset);
-		rb->checked(checked);
-		if(checked) { rb->click(); }
+    	mRadioButtons.emplace_back(name, this, NAS2D::MakeDelegate(obj, func));
+    	//mRadioButtons.push_back(rb);
+    	mRadioButtons.back().visible(visible());
+    	mRadioButtons.back().position(mRect.startPoint() + offset);
+    	mRadioButtons.back().checked(checked);
+		if(checked) { mRadioButtons.back().click(); }
 
     }
 
@@ -89,5 +89,5 @@ private:
     	NAS2D::DelegateX<void> mRbgDelegate;
     };
 
-	std::vector<RadioButton*> mRadioButtons;
+	std::vector<RadioButton> mRadioButtons;
 };

@@ -125,7 +125,7 @@ void RadioButtonGroup::positionChanged(int dX, int dY)
 
 	for (auto &control : mRadioButtons)
 	{
-		control->position(control->position() + NAS2D::Vector{dX, dY});
+		control.position(control.position() + NAS2D::Vector{dX, dY});
 	}
 }
 
@@ -138,12 +138,12 @@ void RadioButtonGroup::update()
 
 	if( mRadioButtons.size() > 0 && !hasOneSelectedItem() ) {
 		clearSelection();
-		mRadioButtons[0]->click();
+		mRadioButtons[0].click();
 	}
 
 	for (auto &control : mRadioButtons)
 	{
-		control->update(); /*if (control->hasFocus()) { Utility<Renderer>::get().drawBox(control->rect(), 255, 0, 255); }*/
+		control.update(); /*if (control->hasFocus()) { Utility<Renderer>::get().drawBox(control->rect(), 255, 0, 255); }*/
 	}
 }
 
@@ -153,7 +153,7 @@ void RadioButtonGroup::clearSelection()
 
 	for (auto &control : mRadioButtons)
 	{
-		control->checked(false);
+		control.checked(false);
 	}
 }
 
@@ -162,7 +162,7 @@ bool RadioButtonGroup::hasOneSelectedItem()
 	int count = 0;
 	for (auto &control : mRadioButtons)
 	{
-		if(control->checked()) { count++; }
+		if(control.checked()) { count++; }
 	}
 	return count == 1;
 }
@@ -172,7 +172,7 @@ RadioButtonGroup::~RadioButtonGroup()
 {
 	for (auto &control : mRadioButtons)
 	{
-		delete control;
+		//delete control;
 	}
 }
 

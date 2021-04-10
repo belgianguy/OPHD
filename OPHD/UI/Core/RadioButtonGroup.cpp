@@ -12,7 +12,7 @@
 
 RadioButtonGroup::RadioButton::RadioButton(std::string newText, RadioButtonGroup* parentContainer, NAS2D::DelegateX<void> delegate) :
 	mFont{fontCache.load(constants::FONT_PRIMARY, constants::FONT_PRIMARY_NORMAL)},
-	mSkin{imageCache.load("ui/skin/checkbox.png")},
+	mSkin{imageCache.load("ui/skin/radio.png")},
 	mLabel{newText},
 	mParentContainer{parentContainer}
 {
@@ -25,7 +25,7 @@ RadioButtonGroup::RadioButton::RadioButton(std::string newText, RadioButtonGroup
 
 RadioButtonGroup::RadioButton::~RadioButton()
 {
-	Utility<EventHandler>::get().mouseButtonDown().disconnect(this, &RadioButton::onMouseDown);
+	Utility<EventHandler>::get().mouseButtonDown().disconnect(this, &RadioButtonGroup::RadioButton::onMouseDown);
 }
 
 /**

@@ -32,12 +32,12 @@ public:
     void add(Y * obj, void (X::*func)(Params...), const std::string& name, bool checked = false)
     {
         RadioButton* rb = new RadioButton(name, this, NAS2D::MakeDelegate(obj, func));
+        NAS2D::Vector<int> offset = {0, 13};
+        offset.y = mRadioButtons.size() * offset.y;
 
     	//mRadioButtons.emplace_back(name, this, NAS2D::MakeDelegate(this, &RadioButtonGroup::radioButtonStateChanged));
     	mRadioButtons.push_back(rb);
-    	NAS2D::Vector<int> offset = {0, 13};
         rb->visible(visible());
-		offset.y = mRadioButtons.size() * offset.y;
 		rb->position(mRect.startPoint() + offset);
 		rb->checked(checked);
 		if(checked) { rb->click(); }

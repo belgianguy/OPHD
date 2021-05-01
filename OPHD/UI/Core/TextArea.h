@@ -3,7 +3,7 @@
 #include "TextControl.h"
 
 #include <NAS2D/Renderer/Color.h>
-#include <NAS2D/Resources/Font.h>
+#include <NAS2D/Resource/Font.h>
 
 #include <string>
 
@@ -22,9 +22,9 @@ public:
 private:
 	using StringList = std::vector<std::string>;
 
-	void onSizeChanged() override;
-	void onTextChanged() override;
-	virtual void onFontChanged();
+	void onResize() override;
+	void onTextChange() override;
+	virtual void onFontChange();
 
 	void draw() override;
 	void processString();

@@ -1,9 +1,9 @@
 #pragma once
 
-#include <NAS2D/Signal.h>
+#include <NAS2D/Signal/Signal.h>
 #include <NAS2D/Timer.h>
 #include <NAS2D/Renderer/Point.h>
-#include <NAS2D/Resources/Image.h>
+#include <NAS2D/Resource/Image.h>
 
 #include <cmath>
 #include <string>
@@ -51,7 +51,7 @@ public:
 	};
 
 public:
-	using MouseCallback = NAS2D::Signals::Signal<>;
+	using MouseSignal = NAS2D::Signal<>;
 
 public:
 	Planet(const Attributes& attributes);
@@ -65,8 +65,8 @@ public:
 
 	bool mouseHovering() const { return mMouseInArea; }
 
-	MouseCallback& mouseEnter() { return mMouseEnterCallback; }
-	MouseCallback& mouseExit() { return mMouseExitCallback; }
+	MouseSignal::Source& mouseEnter() { return mMouseEnterSignal; }
+	MouseSignal::Source& mouseExit() { return mMouseExitSignal; }
 
 	void update();
 
@@ -87,8 +87,8 @@ private:
 	const NAS2D::Image mImage;
 	NAS2D::Point<int> mPosition;
 
-	MouseCallback mMouseEnterCallback;
-	MouseCallback mMouseExitCallback;
+	MouseSignal mMouseEnterSignal;
+	MouseSignal mMouseExitSignal;
 
 	bool mMouseInArea = false;
 

@@ -60,9 +60,9 @@ bool CheckBox::checked() const
 }
 
 
-CheckBox::ClickCallback& CheckBox::click()
+CheckBox::ClickSignal::Source& CheckBox::click()
 {
-	return mCallback;
+	return mSignal;
 }
 
 
@@ -73,12 +73,12 @@ void CheckBox::onMouseDown(EventHandler::MouseButton button, int x, int y)
 	if (button == EventHandler::MouseButton::Left && mRect.contains(Point{x, y}))
 	{
 		mChecked = !mChecked;
-		mCallback();
+		mSignal();
 	}
 }
 
 
-void CheckBox::onTextChanged()
+void CheckBox::onTextChange()
 {
 	const auto textWidth = mFont.width(text());
 	width((textWidth > 0) ? 20 + textWidth : 13);
@@ -88,7 +88,7 @@ void CheckBox::onTextChanged()
 /**
  * Enforces minimum and maximum sizes.
  */
-void CheckBox::onSizeChanged()
+void CheckBox::onResize()
 {
 	mRect.size({std::max(mRect.width, 13), 13});
 }

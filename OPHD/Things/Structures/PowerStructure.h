@@ -5,8 +5,7 @@
 #include <string>
 
 /**
- * \class	PowerStructure
- * \brief	Virtual class for structures whose primary purpose is power production
+ * Virtual class for structures whose primary purpose is power production
  *
  * \note	PowerStructure is an abstract class
  */

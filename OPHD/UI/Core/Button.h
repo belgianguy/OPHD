@@ -2,10 +2,10 @@
 
 #include "TextControl.h"
 
-#include <NAS2D/Signal.h>
+#include <NAS2D/Signal/Signal.h>
 #include <NAS2D/EventHandler.h>
-#include <NAS2D/Resources/Image.h>
-#include <NAS2D/Resources/Font.h>
+#include <NAS2D/Resource/Image.h>
+#include <NAS2D/Resource/Font.h>
 #include <NAS2D/Renderer/RectangleSkin.h>
 
 #include <string>
@@ -20,7 +20,7 @@ public:
 		BUTTON_TOGGLE
 	};
 
-	using ClickCallback = NAS2D::Signals::Signal<>;
+	using ClickSignal = NAS2D::Signal<>;
 
 	Button(std::string newText = "");
 	~Button() override;
@@ -35,7 +35,7 @@ public:
 	void image(const std::string& path);
 	bool hasImage() const;
 
-	ClickCallback& click() { return mCallback; }
+	ClickSignal::Source& click() { return mSignal; }
 
 	void update() override;
 
@@ -64,7 +64,7 @@ private:
 
 	const NAS2D::Font* mFont = nullptr; /**< Buttons can have different font sizes. */
 
-	ClickCallback mCallback; /**< Object to notify when the Button is activated. */
+	ClickSignal mSignal; /**< Object to notify when the Button is activated. */
 
 	bool mMouseHover = false; /**< Mouse is within the bounds of the Button. */
 };

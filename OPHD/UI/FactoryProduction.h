@@ -15,7 +15,7 @@ class Factory;
 
 
 /**
- * \brief Implements a Factory Production dialog interface.
+ * Implements a Factory Production dialog interface.
  */
 class FactoryProduction : public Window
 {
@@ -30,15 +30,15 @@ public:
 	void update() override;
 
 private:
-	void btnOkayClicked();
-	void btnCancelClicked();
-	void btnClearSelectionClicked();
-	void chkIdleClicked();
-	void btnApplyClicked();
+	void onOkay();
+	void onCancel();
+	void onClearSelection();
+	void onCheckBoxIdleChange();
+	void onApply();
 
 	void clearProduct();
 
-	void productSelectionChanged(const IconGrid::IconGridItem*);
+	void onProductSelectionChange(const IconGrid::IconGridItem*);
 
 	Factory* mFactory = nullptr;
 

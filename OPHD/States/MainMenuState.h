@@ -6,7 +6,7 @@
 
 #include <NAS2D/State.h>
 #include <NAS2D/EventHandler.h>
-#include <NAS2D/Resources/Image.h>
+#include <NAS2D/Resource/Image.h>
 
 
 /**
@@ -24,23 +24,20 @@ protected:
 
 private:
 	void onKeyDown(NAS2D::EventHandler::KeyCode key, NAS2D::EventHandler::KeyModifier mod, bool repeat);
-	void onWindowResized(int width, int height);
+	void onWindowResized(NAS2D::Vector<int> newSize);
 	void onFadeComplete();
 
 	void positionButtons();
 	void disableButtons();
 	void enableButtons();
 
-	void btnNewGameClicked();
-	void btnContinueGameClicked();
-	void btnOptionsClicked();
-	void btnHelpClicked();
-	void btnQuitClicked();
+	void onNewGame();
+	void onContinueGame();
+	void onOptions();
+	void onHelp();
+	void onQuit();
 
-	void wasDifficultyOkClicked();
-	void newGameCancelled();
-
-	void fileIoAction(const std::string& filePath, FileIo::FileOperation fileOp);
+	void onFileIoAction(const std::string& filePath, FileIo::FileOperation fileOp);
 
 private:
 	const NAS2D::Image mBgImage;

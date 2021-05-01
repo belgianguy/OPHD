@@ -37,33 +37,33 @@ private:
 	void fillFactoryList(bool);
 	void fillFactoryList(StructureState);
 
-	void btnShowAllClicked();
-	void btnShowSurfaceClicked();
-	void btnShowUndergroundClicked();
-	void btnShowActiveClicked();
-	void btnShowIdleClicked();
-	void btnShowDisabledClicked();
+	void onShowAll();
+	void onShowSurface();
+	void onShowUnderground();
+	void onShowActive();
+	void onShowIdle();
+	void onShowDisabled();
 
-	void btnIdleClicked();
-	void btnClearProductionClicked();
-	void btnTakeMeThereClicked();
+	void onIdle();
+	void onClearProduction();
+	void onTakeMeThere();
 
-	void btnApplyClicked();
+	void onApply();
 
 	void filterButtonClicked(bool clearCbo);
 
-	void lstFactoryListSelectionChanged();
-	void lstProductsSelectionChanged();
-	void cboFilterByProductSelectionChanged();
+	void onListSelectionChange();
+	void onProductSelectionChange();
+	void onProductFilterSelectionChange();
 
 	void checkFactoryActionControls();
 
-	void resized(Control*);
+	void onResize() override;
 
 	void drawDetailPane(NAS2D::Renderer&);
 	void drawProductPane(NAS2D::Renderer&);
 
-	void visibilityChanged(bool visible) override;
+	void onVisibilityChange(bool visible) override;
 
 	const NAS2D::Font& font;
 	const NAS2D::Font& fontMedium;

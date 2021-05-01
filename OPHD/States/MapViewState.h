@@ -17,7 +17,7 @@
 #include "../UI/Gui.h"
 #include "../UI/UI.h"
 
-#include <NAS2D/Signal.h>
+#include <NAS2D/Signal/Signal.h>
 #include <NAS2D/Renderer/Point.h>
 #include <NAS2D/Renderer/Rectangle.h>
 
@@ -71,9 +71,9 @@ public:
 	};
 
 public:
-	using QuitCallback = NAS2D::Signals::Signal<>;
-	using ReportsUiCallback = NAS2D::Signals::Signal<>;
-	using MapChangedCallback = NAS2D::Signals::Signal<>;
+	using QuitSignal = NAS2D::Signal<>;
+	using ReportsUiSignal = NAS2D::Signal<>;
+	using MapChangedSignal = NAS2D::Signal<>;
 
 public:
 	MapViewState(MainReportsUiState& mainReportsState, const std::string& savegame);
@@ -82,9 +82,9 @@ public:
 
 	void setPopulationLevel(PopulationLevel popLevel);
 
-	ReportsUiCallback& showReporstUi() { return mReportsUiCallback; }
-	QuitCallback& quit() { return mQuitCallback; }
-	MapChangedCallback& mapChanged() { return mMapChangedCallback; }
+	ReportsUiSignal::Source& showReporstUi() { return mReportsUiSignal; }
+	QuitSignal::Source& quit() { return mQuitSignal; }
+	MapChangedSignal::Source& mapChanged() { return mMapChangedSignal; }
 
 	void focusOnStructure(Structure* s);
 
@@ -104,12 +104,12 @@ private:
 	void onMouseUp(NAS2D::EventHandler::MouseButton button, int x, int y);
 	void onMouseMove(int x, int y, int rX, int rY);
 	void onMouseWheel(int x, int y);
-	void onWindowResized(int w, int h);
+	void onWindowResized(NAS2D::Vector<int> newSize);
 
 	// ROBOT EVENT HANDLERS
-	void dozerTaskFinished(Robot* robot);
-	void diggerTaskFinished(Robot* robot);
-	void minerTaskFinished(Robot* robot);
+	void onDozerTaskComplete(Robot* robot);
+	void onDiggerTaskComplete(Robot* robot);
+	void onMinerTaskComplete(Robot* robot);
 
 	// DRAWING FUNCTIONS
 	void drawUI();
@@ -121,9 +121,9 @@ private:
 	void drawRobotInfo();
 
 	// INSERT OBJECT HANDLING
-	void deployCargoLander();
-	void deployColonistLander();
-	void deploySeedLander(NAS2D::Point<int> point);
+	void onDeployCargoLander();
+	void onDeployColonistLander();
+	void onDeploySeedLander(NAS2D::Point<int> point);
 	void insertSeedLander(NAS2D::Point<int> point);
 	void insertTube(ConnectorDir dir, int depth, Tile* tile);
 
@@ -153,9 +153,9 @@ private:
 	void changeViewDepth(int);
 
 	void pullRobotFromFactory(ProductType pt, Factory& factory);
-	void factoryProductionComplete(Factory& factory);
+	void onFactoryProductionComplete(Factory& factory);
 
-	void mineFacilityExtended(MineFacility* mf);
+	void onMineFacilityExtend(MineFacility* mf);
 
 	void countPlayerResources();
 
@@ -209,23 +209,23 @@ private:
 	void updateStructuresAvailability();
 
 	// UI EVENT HANDLERS
-	void btnTurnsClicked();
-	void btnToggleConnectednessClicked();
-	void btnToggleCommRangeOverlayClicked();
-	void btnToggleRouteOverlayClicked();
+	void onTurns();
+	void onToggleConnectedness();
+	void onToggleCommRangeOverlay();
+	void onToggleRouteOverlay();
 
-	void btnSaveGameClicked();
-	void btnLoadGameClicked();
-	void btnReturnToGameClicked();
-	void btnGameOverClicked();
+	void onSaveGame();
+	void onLoadGame();
+	void onReturnToGame();
+	void onGameOver();
 
-	void structuresSelectionChanged(const IconGrid::IconGridItem*);
-	void connectionsSelectionChanged(const IconGrid::IconGridItem*);
-	void robotsSelectionChanged(const IconGrid::IconGridItem*);
+	void onStructuresSelectionChange(const IconGrid::IconGridItem*);
+	void onConnectionsSelectionChange(const IconGrid::IconGridItem*);
+	void onRobotsSelectionChange(const IconGrid::IconGridItem*);
 
-	void diggerSelectionDialog(Direction direction, Tile* tile);
+	void onDiggerSelectionDialog(Direction direction, Tile* tile);
 
-	void fileIoAction(const std::string& filePath, FileIo::FileOperation fileOp);
+	void onFileIoAction(const std::string& filePath, FileIo::FileOperation fileOp);
 
 
 private:
@@ -305,9 +305,9 @@ private:
 	NAS2D::Rectangle<int> mBottomUiRect;
 
 	// SIGNALS
-	QuitCallback mQuitCallback;
-	ReportsUiCallback mReportsUiCallback;
-	MapChangedCallback mMapChangedCallback;
+	QuitSignal mQuitSignal;
+	ReportsUiSignal mReportsUiSignal;
+	MapChangedSignal mMapChangedSignal;
 
 	// ROUTING
 	micropather::MicroPather* mPathSolver = nullptr;

@@ -276,19 +276,19 @@ void MainReportsUiState::exit()
 		if (panel.UiPanel) { panel.UiPanel->clearSelected(); }
 	}
 
-	mReportsUiCallback();
+	mReportsUiSignal();
 }
 
 
 /**
  * Window resized event handler.
  */
-void MainReportsUiState::onWindowResized(int w, int h)
+void MainReportsUiState::onWindowResized(NAS2D::Vector<int> newSize)
 {
-	setPanelRects(w);
+	setPanelRects(newSize.x);
 	for (Panel& panel : Panels)
 	{
-		if (panel.UiPanel) { panel.UiPanel->size(NAS2D::Vector{w, h - 48}); }
+		if (panel.UiPanel) { panel.UiPanel->size(NAS2D::Vector{newSize.x, newSize.y - 48}); }
 	}
 }
 
@@ -360,7 +360,7 @@ MainReportsUiState::TakeMeThereList MainReportsUiState::takeMeThere()
 	TakeMeThereList takeMeThereList;
 	for (auto& panel : Panels)
 	{
-		if (panel.UiPanel) { takeMeThereList.push_back(&panel.UiPanel->takeMeThereCallback()); }
+		if (panel.UiPanel) { takeMeThereList.push_back(&panel.UiPanel->takeMeThereSignal()); }
 	}
 	return takeMeThereList;
 }

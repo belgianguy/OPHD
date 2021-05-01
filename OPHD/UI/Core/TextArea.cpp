@@ -62,20 +62,20 @@ void TextArea::processString()
 }
 
 
-void TextArea::onSizeChanged()
+void TextArea::onResize()
 {
-	Control::onSizeChanged();
+	Control::onResize();
 	processString();
 }
 
 
-void TextArea::onTextChanged()
+void TextArea::onTextChange()
 {
 	processString();
 }
 
 
-void TextArea::onFontChanged()
+void TextArea::onFontChange()
 {
 	processString();
 }

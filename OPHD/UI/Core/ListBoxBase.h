@@ -4,7 +4,7 @@
 #include "Slider.h"
 #include "../../Constants/UiConstants.h"
 
-#include <NAS2D/Signal.h>
+#include <NAS2D/Signal/Signal.h>
 #include <NAS2D/EventHandler.h>
 #include <NAS2D/Renderer/Color.h>
 
@@ -25,9 +25,9 @@ class ListBoxBase : public Control
 {
 public:
 	/**
-	 * Callback signal fired whenever the list selection changes.
+	 * Signal signal fired whenever the list selection changes.
 	 */
-	using SelectionChangedCallback = NAS2D::Signals::Signal<>;
+	using SelectionChangeSignal = NAS2D::Signal<>;
 
 	/**
 	 * Derived SpecialListBox types can inherit from this struct
@@ -59,7 +59,7 @@ public:
 
 	std::size_t currentHighlight() const;
 
-	SelectionChangedCallback& selectionChanged() { return mSelectionChanged; }
+	SelectionChangeSignal::Source& selectionChanged() { return mSelectionChanged; }
 
 	void update() override = 0;
 
@@ -78,19 +78,19 @@ protected:
 
 	unsigned int draw_offset() const { return mScrollOffsetInPixels; }
 
-	void visibilityChanged(bool) override;
+	void onVisibilityChange(bool) override;
 
 
 	std::vector<ListBoxItem*> mItems; /**< List of Items. Pointers used for polymorphism. */
 
 private:
-	void slideChanged(float newPosition);
+	void onSlideChange(float newPosition);
 
 	virtual void onMouseDown(NAS2D::EventHandler::MouseButton button, int x, int y);
 	void onMouseMove(int x, int y, int relX, int relY);
 	void onMouseWheel(int x, int y);
 
-	void onSizeChanged() override;
+	void onResize() override;
 
 
 	std::size_t mHighlightIndex = constants::NO_SELECTION;
@@ -106,6 +106,6 @@ private:
 	NAS2D::Color mHighlightBg = NAS2D::Color::DarkGreen; /**< Highlight Background color. */
 	NAS2D::Color mHighlightText = NAS2D::Color::White; /**< Text Color for an item that is currently highlighted. */
 
-	SelectionChangedCallback mSelectionChanged; /**< Callback for selection changed callback. */
+	SelectionChangeSignal mSelectionChanged; /**< Signal for selection changed callback. */
 	Slider mSlider; /**< Slider control. */
 };

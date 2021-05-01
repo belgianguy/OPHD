@@ -49,27 +49,27 @@ void MainMenuState::initialize()
 
 	btnNewGame.fontSize(constants::FONT_PRIMARY_MEDIUM);
 	btnNewGame.size({200, 30});
-	btnNewGame.click().connect(this, &MainMenuState::btnNewGameClicked);
+	btnNewGame.click().connect(this, &MainMenuState::onNewGame);
 
 	btnContinueGame.fontSize(constants::FONT_PRIMARY_MEDIUM);
 	btnContinueGame.size({200, 30});
-	btnContinueGame.click().connect(this, &MainMenuState::btnContinueGameClicked);
+	btnContinueGame.click().connect(this, &MainMenuState::onContinueGame);
 
 	btnOptions.fontSize(constants::FONT_PRIMARY_MEDIUM);
 	btnOptions.size({200, 30});
 	btnOptions.enabled(false);
-	btnOptions.click().connect(this, &MainMenuState::btnOptionsClicked);
+	btnOptions.click().connect(this, &MainMenuState::onOptions);
 
 	btnHelp.fontSize(constants::FONT_PRIMARY_MEDIUM);
 	btnHelp.size({200, 30});
-	btnHelp.click().connect(this, &MainMenuState::btnHelpClicked);
+	btnHelp.click().connect(this, &MainMenuState::onHelp);
 
 	btnQuit.fontSize(constants::FONT_PRIMARY_MEDIUM);
 	btnQuit.size({200, 30});
-	btnQuit.click().connect(this, &MainMenuState::btnQuitClicked);
+	btnQuit.click().connect(this, &MainMenuState::onQuit);
 
-	mFileIoDialog.setMode(FileIo::FileOperation::FILE_LOAD);
-	mFileIoDialog.fileOperation().connect(this, &MainMenuState::fileIoAction);
+	mFileIoDialog.setMode(FileIo::FileOperation::Load);
+	mFileIoDialog.fileOperation().connect(this, &MainMenuState::onFileIoAction);
 	mFileIoDialog.anchored(false);
 	mFileIoDialog.hide();
 
@@ -146,9 +146,9 @@ void MainMenuState::enableButtons()
 /**
  * Event handler for file I/O operations via the FileIO Window.
  */
-void MainMenuState::fileIoAction(const std::string& filePath, FileIo::FileOperation fileOp)
+void MainMenuState::onFileIoAction(const std::string& filePath, FileIo::FileOperation fileOp)
 {
-	if (fileOp == FileIo::FileOperation::FILE_SAVE)
+	if (fileOp == FileIo::FileOperation::Save)
 	{
 		return;
 	}
@@ -193,7 +193,7 @@ void MainMenuState::onKeyDown(NAS2D::EventHandler::KeyCode /*key*/, NAS2D::Event
 /**
  * Window resize event handler.
  */
-void MainMenuState::onWindowResized(int /*width*/, int /*height*/)
+void MainMenuState::onWindowResized(NAS2D::Vector<int> /*newSize*/)
 {
 	positionButtons();
 }
@@ -212,19 +212,12 @@ void MainMenuState::onFadeComplete()
 /**
  * Click handler for New Game button.
  */
-void MainMenuState::btnNewGameClicked()
+void MainMenuState::onNewGame()
 {
 	if (mFileIoDialog.visible()) { return; }
 
 	disableButtons();
 
-	//dlgNewGame.show();
-	wasDifficultyOkClicked();
-}
-
-
-void MainMenuState::wasDifficultyOkClicked()
-{
 	mReturnState = new PlanetSelectState();
 
 	Utility<Renderer>::get().fadeOut(static_cast<float>(constants::FADE_SPEED));
@@ -232,16 +225,10 @@ void MainMenuState::wasDifficultyOkClicked()
 }
 
 
-void MainMenuState::newGameCancelled()
-{
-	enableButtons();
-}
-
-
 /**
  * Click handler for Continue button.
  */
-void MainMenuState::btnContinueGameClicked()
+void MainMenuState::onContinueGame()
 {
 	if (mFileIoDialog.visible()) { return; }
 
@@ -253,7 +240,7 @@ void MainMenuState::btnContinueGameClicked()
 /**
  * Click handler for Options button.
  */
-void MainMenuState::btnOptionsClicked()
+void MainMenuState::onOptions()
 {
 	if (mFileIoDialog.visible()) { return; }
 }
@@ -262,7 +249,7 @@ void MainMenuState::btnOptionsClicked()
 /**
  * Click handler for the Help button.
  */
-void MainMenuState::btnHelpClicked()
+void MainMenuState::onHelp()
 {
 	if (mFileIoDialog.visible()) { return; }
 
@@ -282,7 +269,7 @@ void MainMenuState::btnHelpClicked()
 /**
  * Click handler for Quit button.
  */
-void MainMenuState::btnQuitClicked()
+void MainMenuState::onQuit()
 {
 	if (mFileIoDialog.visible()) { return; }
 

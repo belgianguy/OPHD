@@ -24,17 +24,13 @@ ComboBox::ComboBox()
 	lstItems.visible(false);
 	lstItems.height(300);
 
-	resized().connect(this, &ComboBox::resizedHandler);
-	moved().connect(this, &ComboBox::repositioned);
-	lstItems.selectionChanged().connect(this, &ComboBox::lstItemsSelectionChanged);
+	lstItems.selectionChanged().connect(this, &ComboBox::onListSelectionChange);
 }
 
 
 ComboBox::~ComboBox()
 {
-	resized().disconnect(this, &ComboBox::resizedHandler);
-	moved().disconnect(this, &ComboBox::repositioned);
-	lstItems.selectionChanged().disconnect(this, &ComboBox::lstItemsSelectionChanged);
+	lstItems.selectionChanged().disconnect(this, &ComboBox::onListSelectionChange);
 	Utility<EventHandler>::get().mouseButtonDown().disconnect(this, &ComboBox::onMouseDown);
 	Utility<EventHandler>::get().mouseWheel().disconnect(this, &ComboBox::onMouseWheel);
 }
@@ -43,8 +39,10 @@ ComboBox::~ComboBox()
 /**
  * Resized event handler.
  */
-void ComboBox::resizedHandler(Control* /*control*/)
+void ComboBox::onResize()
 {
+	Control::onResize();
+
 	// Enforce minimum size
 	if (mRect.width < 50 || mRect.height < 20)
 	{
@@ -64,8 +62,10 @@ void ComboBox::resizedHandler(Control* /*control*/)
 /**
  * Position changed event handler.
  */
-void ComboBox::repositioned(int, int)
+void ComboBox::onMove(NAS2D::Vector<int> displacement)
 {
+	Control::onMove(displacement);
+
 	txtField.position(position());
 	btnDown.position(txtField.rect().crossXPoint());
 	lstItems.position(rect().crossYPoint());
@@ -119,7 +119,7 @@ void ComboBox::clearSelected()
 /**
  * ListBox selection changed event handler.
  */
-void ComboBox::lstItemsSelectionChanged()
+void ComboBox::onListSelectionChange()
 {
 	txtField.text(selectionText());
 	lstItems.visible(false);

@@ -5,20 +5,20 @@
 #include "Core/TextField.h"
 #include "Core/ListBox.h"
 
-#include <NAS2D/Signal.h>
+#include <NAS2D/Signal/Signal.h>
 #include <NAS2D/EventHandler.h>
 
 
 class FileIo : public Window
 {
 public:
-	enum FileOperation
+	enum class FileOperation
 	{
-		FILE_LOAD,
-		FILE_SAVE
+		Load,
+		Save
 	};
 
-	using FileOperationCallback = NAS2D::Signals::Signal<const std::string&, FileOperation>;
+	using FileOperationSignal = NAS2D::Signal<const std::string&, FileOperation>;
 
 	FileIo();
 	~FileIo() override;
@@ -26,7 +26,7 @@ public:
 	void setMode(FileOperation fileOp);
 	void scanDirectory(const std::string& directory);
 
-	FileOperationCallback& fileOperation() { return mCallback; }
+	FileOperationSignal::Source& fileOperation() { return mSignal; }
 
 	void update() override;
 
@@ -35,14 +35,14 @@ protected:
 	void onKeyDown(NAS2D::EventHandler::KeyCode key, NAS2D::EventHandler::KeyModifier mod, bool repeat);
 
 private:
-	void btnCloseClicked();
-	void btnFileIoClicked();
-	void btnFileDeleteClicked();
+	void onClose();
+	void onFileIo();
+	void onFileDelete();
 
-	void fileSelected();
-	void fileNameModified(TextControl* control);
+	void onFileSelect();
+	void onFileNameChange(TextControl* control);
 
-	FileOperationCallback mCallback;
+	FileOperationSignal mSignal;
 
 	FileOperation mMode;
 

@@ -2,7 +2,7 @@
 
 #include "Control.h"
 
-#include <NAS2D/Signal.h>
+#include <NAS2D/Signal/Signal.h>
 
 #include <string>
 
@@ -16,16 +16,16 @@ namespace NAS2D
 class TextControl : public Control
 {
 public:
-	using TextChangedCallback = NAS2D::Signals::Signal<TextControl*>;
+	using TextChangeSignal = NAS2D::Signal<TextControl*>;
 
 	void text(const std::string& text);
 	const std::string& text() const { return mText; }
-	TextChangedCallback& textChanged() { return mTextChanged; }
+	TextChangeSignal::Source& textChanged() { return mTextChanged; }
 
-	virtual void onTextChanged() { mTextChanged(this); }
+	virtual void onTextChange() { mTextChanged(this); }
 
 protected:
-	TextChangedCallback mTextChanged;
+	TextChangeSignal mTextChanged;
 
 	std::string mText; /**< Internal text string. */
 };

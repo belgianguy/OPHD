@@ -3,18 +3,13 @@
 #include "Control.h"
 
 #include <NAS2D/Renderer/Point.h>
-#include <NAS2D/Resources/Font.h>
+#include <NAS2D/Resource/Font.h>
 #include <NAS2D/Timer.h>
 
 #include <utility>
 #include <vector>
 
 
-/**
- * \class Label
- * \brief A control that contains readonly text.
- *
- */
 class ToolTip : public Control
 {
 public:

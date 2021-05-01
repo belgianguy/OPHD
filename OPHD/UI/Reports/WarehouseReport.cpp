@@ -30,52 +30,50 @@ WarehouseReport::WarehouseReport() :
 	btnShowAll.size({75, 20});
 	btnShowAll.type(Button::Type::BUTTON_TOGGLE);
 	btnShowAll.toggle(true);
-	btnShowAll.click().connect(this, &WarehouseReport::btnShowAllClicked);
+	btnShowAll.click().connect(this, &WarehouseReport::onShowAll);
 
 	add(btnSpaceAvailable, {90, 10});
 	btnSpaceAvailable.size({100, 20});
 	btnSpaceAvailable.type(Button::Type::BUTTON_TOGGLE);
 	btnSpaceAvailable.toggle(false);
-	btnSpaceAvailable.click().connect(this, &WarehouseReport::btnSpaceAvailableClicked);
+	btnSpaceAvailable.click().connect(this, &WarehouseReport::onSpaceAvailable);
 
 	add(btnFull, {195, 10});
 	btnFull.size({75, 20});
 	btnFull.type(Button::Type::BUTTON_TOGGLE);
 	btnFull.toggle(false);
-	btnFull.click().connect(this, &WarehouseReport::btnFullClicked);
+	btnFull.click().connect(this, &WarehouseReport::onFull);
 
 	add(btnEmpty, {275, 10});
 	btnEmpty.size({75, 20});
 	btnEmpty.type(Button::Type::BUTTON_TOGGLE);
 	btnEmpty.toggle(false);
-	btnEmpty.click().connect(this, &WarehouseReport::btnEmptyClicked);
+	btnEmpty.click().connect(this, &WarehouseReport::onEmpty);
 
 	add(btnDisabled, {355, 10});
 	btnDisabled.size({75, 20});
 	btnDisabled.type(Button::Type::BUTTON_TOGGLE);
 	btnDisabled.toggle(false);
-	btnDisabled.click().connect(this, &WarehouseReport::btnDisabledClicked);
+	btnDisabled.click().connect(this, &WarehouseReport::onDisabled);
 
 	add(btnTakeMeThere, {10, 10});
 	btnTakeMeThere.size({140, 30});
-	btnTakeMeThere.click().connect(this, &WarehouseReport::btnTakeMeThereClicked);
+	btnTakeMeThere.click().connect(this, &WarehouseReport::onTakeMeThere);
 
 	add(lstStructures, {10, mRect.y + 115});
-	lstStructures.selectionChanged().connect(this, &WarehouseReport::lstStructuresSelectionChanged);
+	lstStructures.selectionChanged().connect(this, &WarehouseReport::onStructureSelectionChange);
 
 	add(lstProducts, {Utility<Renderer>::get().center().x + 10, mRect.y + 173});
 
-	Utility<EventHandler>::get().mouseDoubleClick().connect(this, &WarehouseReport::doubleClicked);
+	Utility<EventHandler>::get().mouseDoubleClick().connect(this, &WarehouseReport::onDoubleClick);
 
-	Control::resized().connect(this, &WarehouseReport::_resized);
 	fillLists();
 }
 
 
 WarehouseReport::~WarehouseReport()
 {
-	Control::resized().disconnect(this, &WarehouseReport::_resized);
-	Utility<EventHandler>::get().mouseDoubleClick().disconnect(this, &WarehouseReport::doubleClicked);
+	Utility<EventHandler>::get().mouseDoubleClick().disconnect(this, &WarehouseReport::onDoubleClick);
 }
 
 
@@ -220,14 +218,14 @@ void WarehouseReport::fillListDisabled()
 }
 
 
-void WarehouseReport::doubleClicked(EventHandler::MouseButton button, int x, int y)
+void WarehouseReport::onDoubleClick(EventHandler::MouseButton button, int x, int y)
 {
 	if (!visible()) { return; }
 	if (button != EventHandler::MouseButton::Left) { return; }
 
 	if (selectedWarehouse && lstStructures.rect().contains(NAS2D::Point{x, y}))
 	{
-		takeMeThereCallback()(selectedWarehouse);
+		takeMeThereSignal()(selectedWarehouse);
 	}
 }
 
@@ -241,7 +239,7 @@ void WarehouseReport::clearSelected()
 
 void WarehouseReport::refresh()
 {
-	btnShowAllClicked();
+	onShowAll();
 }
 
 
@@ -252,8 +250,10 @@ void WarehouseReport::selectStructure(Structure* structure)
 }
 
 
-void WarehouseReport::_resized(Control*)
+void WarehouseReport::onResize()
 {
+	Control::onResize();
+
 	lstStructures.size({(mRect.width / 2) - 20, mRect.height - 126});
 	lstProducts.size({(mRect.width / 2) - 20, mRect.height - 184});
 	lstProducts.position({Utility<Renderer>::get().center().x + 10, lstProducts.positionY()});
@@ -272,7 +272,7 @@ void WarehouseReport::filterButtonClicked()
 }
 
 
-void WarehouseReport::btnShowAllClicked()
+void WarehouseReport::onShowAll()
 {
 	filterButtonClicked();
 	btnShowAll.toggle(true);
@@ -281,7 +281,7 @@ void WarehouseReport::btnShowAllClicked()
 }
 
 
-void WarehouseReport::btnSpaceAvailableClicked()
+void WarehouseReport::onSpaceAvailable()
 {
 	filterButtonClicked();
 	btnSpaceAvailable.toggle(true);
@@ -290,7 +290,7 @@ void WarehouseReport::btnSpaceAvailableClicked()
 }
 
 
-void WarehouseReport::btnFullClicked()
+void WarehouseReport::onFull()
 {
 	filterButtonClicked();
 	btnFull.toggle(true);
@@ -299,7 +299,7 @@ void WarehouseReport::btnFullClicked()
 }
 
 
-void WarehouseReport::btnEmptyClicked()
+void WarehouseReport::onEmpty()
 {
 	filterButtonClicked();
 	btnEmpty.toggle(true);
@@ -308,7 +308,7 @@ void WarehouseReport::btnEmptyClicked()
 }
 
 
-void WarehouseReport::btnDisabledClicked()
+void WarehouseReport::onDisabled()
 {
 	filterButtonClicked();
 	btnDisabled.toggle(true);
@@ -317,13 +317,13 @@ void WarehouseReport::btnDisabledClicked()
 }
 
 
-void WarehouseReport::btnTakeMeThereClicked()
+void WarehouseReport::onTakeMeThere()
 {
-	takeMeThereCallback()(selectedWarehouse);
+	takeMeThereSignal()(selectedWarehouse);
 }
 
 
-void WarehouseReport::lstStructuresSelectionChanged()
+void WarehouseReport::onStructureSelectionChange()
 {
 	selectedWarehouse = static_cast<Warehouse*>(lstStructures.selectedStructure());
 

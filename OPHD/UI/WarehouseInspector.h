@@ -8,7 +8,7 @@ class Warehouse;
 
 
 /**
-* \brief Implements a Factory Production dialog interface.
+* Implements a Factory Production dialog interface.
 */
 class WarehouseInspector : public Window
 {
@@ -21,7 +21,7 @@ public:
 	void update() override;
 
 private:
-	void btnCloseClicked();
+	void onClose();
 
 	Warehouse* mWarehouse = nullptr;
 	Button btnClose;

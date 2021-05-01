@@ -1,14 +1,13 @@
 #pragma once
 
-#include <NAS2D/Signal.h>
+#include <NAS2D/Signal/Signal.h>
 #include <NAS2D/Renderer/Point.h>
 #include <NAS2D/Renderer/Vector.h>
 #include <NAS2D/Renderer/Rectangle.h>
 
 
 /**
- * \class Control
- * \brief Implements a base for all GUI Controls to derive from.
+ * Implements a base for all GUI Controls to derive from.
  * 
  * The Control class is the base class from which all GUI controls inherit
  * from.
@@ -16,8 +15,8 @@
 class Control
 {
 public:
-	using ResizeCallback = NAS2D::Signals::Signal<Control*>;
-	using PositionChangedCallback = NAS2D::Signals::Signal<int, int>;
+	using ResizeSignal = NAS2D::Signal<Control*>;
+	using OnMoveSignal = NAS2D::Signal<NAS2D::Vector<int>>;
 
 	Control() = default;
 	virtual ~Control() = default;
@@ -28,7 +27,7 @@ public:
 	int positionX();
 	int positionY();
 
-	PositionChangedCallback& moved();
+	OnMoveSignal::Source& moved();
 
 	void highlight(bool highlight);
 	bool highlight() const;
@@ -54,7 +53,7 @@ public:
 	void width(int w);
 	void height(int h);
 
-	ResizeCallback& resized();
+	ResizeSignal::Source& resized();
 
 	virtual void update() {}
 
@@ -62,22 +61,20 @@ protected:
 	/**
 	 * Called whenever the Control's position is changed.
 	 * 
-	 * \param	dX	Difference in X Position.
-	 * \param	dY	Difference in Y Position.
+	 * \param	displacement	Difference in position.
 	 */
-	virtual void positionChanged(int dX, int dY) { mPositionChanged(dX, dY); }
-	void positionChanged(NAS2D::Vector<int> displacement) { positionChanged(displacement.x, displacement.y); }
+	virtual void onMove(NAS2D::Vector<int> displacement) { mOnMoveSignal(displacement); }
 
-	virtual void visibilityChanged(bool /*visible*/) {}
+	virtual void onResize() { mOnResizeSignal(this); }
 
-	virtual void enabledChanged() {}
+	virtual void onVisibilityChange(bool /*visible*/) {}
 
-	virtual void onFocusChanged() {}
+	virtual void onEnableChange() {}
 
-	virtual void onSizeChanged() { mResized(this); }
+	virtual void onFocusChange() {}
 
-	PositionChangedCallback mPositionChanged; /**< Callback fired whenever the position of the Control changes. */
-	ResizeCallback mResized;
+	OnMoveSignal mOnMoveSignal; /**< Signal fired whenever the position of the Control changes. */
+	ResizeSignal mOnResizeSignal;
 
 	NAS2D::Rectangle<int> mRect; /**< Area of the Control. */
 

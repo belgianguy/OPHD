@@ -11,7 +11,7 @@ class MineFacility;
 
 
 /**
- * \brief Implements the Mine Facility Operations Window
+ * Implements the Mine Facility Operations Window
  */
 class MineOperationsWindow final : public Window
 {
@@ -27,17 +27,17 @@ public:
 	void hide() override;
 
 private:
-	void chkCommonMetalsClicked();
-	void chkCommonMineralsClicked();
-	void chkRareMetalsClicked();
-	void chkRareMineralsClicked();
+	void onCheckBoxCommonMetalsChange();
+	void onCheckBoxCommonMineralsChange();
+	void onCheckBoxRareMetalsChange();
+	void onCheckBoxRareMineralsChange();
 
-	void btnOkayClicked();
-	void btnExtendShaftClicked();
-	void btnIdleClicked();
+	void onOkay();
+	void onExtendShaft();
+	void onIdle();
 
-	void btnAssignTruckClicked();
-	void btnUnassignTruckClicked();
+	void onAssignTruck();
+	void onUnassignTruck();
 
 	const NAS2D::Font& mFont;
 	const NAS2D::Font& mFontBold;

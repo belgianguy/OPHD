@@ -2,8 +2,8 @@
 
 #include "UIContainer.h"
 
-#include <NAS2D/Resources/Font.h>
-#include <NAS2D/Resources/Image.h>
+#include <NAS2D/Resource/Font.h>
+#include <NAS2D/Resource/Image.h>
 #include <NAS2D/Renderer/RectangleSkin.h>
 
 #include <string>
@@ -20,11 +20,11 @@ public:
 	void show() override;
 	void update() override;
 
-	using TitleChangedCallback = NAS2D::Signals::Signal<Window*>;
+	using TitleChangeSignal = NAS2D::Signal<Window*>;
 
 	void title(const std::string& title);
 	const std::string& title() const { return mTitle; }
-	TitleChangedCallback& titleChanged() { return mTitleChanged; }
+	TitleChangeSignal::Source& titleChanged() { return mTitleChanged; }
 
 	virtual void onTitleChanged() { mTitleChanged(this); }
 
@@ -45,7 +45,7 @@ private:
 	const NAS2D::Image& mTitleBarRight;
 	NAS2D::RectangleSkin mBody;
 
-	TitleChangedCallback mTitleChanged;
+	TitleChangeSignal mTitleChanged;
 
 	std::string mTitle;
 };

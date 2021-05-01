@@ -4,21 +4,20 @@
 
 #include "../Constants/UiConstants.h"
 
-#include <NAS2D/Signal.h>
+#include <NAS2D/Signal/Signal.h>
 #include <NAS2D/EventHandler.h>
 #include <NAS2D/StringUtils.h>
 #include <NAS2D/Renderer/Point.h>
 #include <NAS2D/Renderer/Vector.h>
 #include <NAS2D/Renderer/RectangleSkin.h>
-#include <NAS2D/Resources/Font.h>
-#include <NAS2D/Resources/Image.h>
+#include <NAS2D/Resource/Font.h>
+#include <NAS2D/Resource/Image.h>
 
 #include <algorithm>
 
 
 /**
- * \class IconGrid
- * \brief Represents a 2D grid of Icon items that can be selected with a mouse.
+ * Represents a 2D grid of Icon items that can be selected with a mouse.
  */
 class IconGrid : public Control
 {
@@ -47,7 +46,7 @@ public:
 		NAS2D::Point<int> pos;
 	};
 
-	using Callback = NAS2D::Signals::Signal<const IconGridItem*>;
+	using Signal = NAS2D::Signal<const IconGridItem*>;
 
 public:
 	IconGrid(const std::string& filePath, int iconSize, int margin);
@@ -79,7 +78,7 @@ public:
 	void incrementSelection();
 	void decrementSelection();
 
-	Callback& selectionChanged() { return mCallback; }
+	Signal::Source& selectionChanged() { return mSignal; }
 
 	void hide() override;
 
@@ -92,7 +91,7 @@ protected:
 	virtual void onMouseDown(NAS2D::EventHandler::MouseButton button, int x, int y);
 	virtual void onMouseMove(int x, int y, int dX, int dY);
 
-	virtual void sizeChanged(Control*);
+	void onResize() override;
 
 private:
 	using IconItemList = std::vector<IconGridItem>;
@@ -121,5 +120,5 @@ private:
 
 	IconItemList mIconItemList; /**< List of items. */
 
-	Callback mCallback; /**< Callback whenever a selection is made. */
+	Signal mSignal; /**< Signal whenever a selection is made. */
 };

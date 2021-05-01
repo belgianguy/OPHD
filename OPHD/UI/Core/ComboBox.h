@@ -4,7 +4,7 @@
 #include "ListBox.h"
 #include "TextField.h"
 
-#include <NAS2D/Signal.h>
+#include <NAS2D/Signal/Signal.h>
 #include <NAS2D/EventHandler.h>
 #include <NAS2D/Renderer/Rectangle.h>
 
@@ -14,7 +14,7 @@
 class ComboBox : public Control
 {
 public:
-	using SelectionChanged = NAS2D::Signals::Signal<>;
+	using SelectionChangeSignal = NAS2D::Signal<>;
 
 	ComboBox();
 	~ComboBox() override;
@@ -26,7 +26,7 @@ public:
 
 	void clearSelected();
 
-	SelectionChanged& selectionChanged() { return mSelectionChanged; }
+	SelectionChangeSignal::Source& selectionChanged() { return mSelectionChanged; }
 
 	const std::string& selectionText() const;
 	int selectionTag() const;
@@ -41,9 +41,9 @@ public:
 	const std::string& text() const;
 
 private:
-	void resizedHandler(Control* control);
-	void repositioned(int, int);
-	void lstItemsSelectionChanged();
+	void onResize() override;
+	void onMove(NAS2D::Vector<int> displacement) override;
+	void onListSelectionChange();
 
 	void onMouseWheel(int x, int y);
 	void onMouseDown(NAS2D::EventHandler::MouseButton button, int x, int y);
@@ -54,7 +54,7 @@ private:
 
 	NAS2D::Rectangle<int> mBaseArea;
 
-	SelectionChanged mSelectionChanged;
+	SelectionChangeSignal mSelectionChanged;
 
 	std::size_t mMaxDisplayItems = constants::MINIMUM_DISPLAY_ITEMS;
 };

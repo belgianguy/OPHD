@@ -75,7 +75,7 @@ void PlanetSelectState::initialize()
 
 	mQuit.size({100, 20});
 	mQuit.position({renderer.size().x - 105, 30});
-	mQuit.click().connect(this, &PlanetSelectState::btnQuitClicked);
+	mQuit.click().connect(this, &PlanetSelectState::onQuit);
 
 	mPlanetDescription.text("");
 	mPlanetDescription.font(constants::FONT_PRIMARY, constants::FONT_PRIMARY_MEDIUM);
@@ -179,20 +179,20 @@ void PlanetSelectState::onMousePlanetExit()
 }
 
 
-void PlanetSelectState::onWindowResized(int w, int h)
+void PlanetSelectState::onWindowResized(NAS2D::Vector<int> newSize)
 {
-	const auto middlePosition = NAS2D::Point{0, 0} + (NAS2D::Vector{w, h} - NAS2D::Vector{128, 128}) / 2;
-	const auto offset = NAS2D::Vector{w / 4, 0};
+	const auto middlePosition = NAS2D::Point{0, 0} + (newSize - NAS2D::Vector{128, 128}) / 2;
+	const auto offset = NAS2D::Vector{newSize.x / 4, 0};
 	mPlanets[0]->position(middlePosition - offset);
 	mPlanets[1]->position(middlePosition);
 	mPlanets[2]->position(middlePosition + offset);
 
-	mQuit.position(NAS2D::Point{w - 105, 30});
-	mPlanetDescription.position(NAS2D::Point{(w / 2) - 275, h - 225});
+	mQuit.position(NAS2D::Point{newSize.x - 105, 30});
+	mPlanetDescription.position(NAS2D::Point{(newSize.x / 2) - 275, newSize.y - 225});
 }
 
 
-void PlanetSelectState::btnQuitClicked()
+void PlanetSelectState::onQuit()
 {
 	Utility<Renderer>::get().fadeOut(constants::FADE_SPEED);
 	mReturnState = new MainMenuState();

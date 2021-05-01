@@ -50,36 +50,36 @@ MineOperationsWindow::MineOperationsWindow() :
 	add(btnIdle, {10, 230});
 	btnIdle.type(Button::Type::BUTTON_TOGGLE);
 	btnIdle.size({60, 30});
-	btnIdle.click().connect(this, &MineOperationsWindow::btnIdleClicked);
+	btnIdle.click().connect(this, &MineOperationsWindow::onIdle);
 
 	add(btnExtendShaft, {72, 230});
 	btnExtendShaft.size({100, 30});
-	btnExtendShaft.click().connect(this, &MineOperationsWindow::btnExtendShaftClicked);
+	btnExtendShaft.click().connect(this, &MineOperationsWindow::onExtendShaft);
 
 	add(btnOkay, {mRect.width - 70, 230});
 	btnOkay.size({60, 30});
-	btnOkay.click().connect(this, &MineOperationsWindow::btnOkayClicked);
+	btnOkay.click().connect(this, &MineOperationsWindow::onOkay);
 
 	add(btnAssignTruck, {mRect.width - 85, 115});
 	btnAssignTruck.size({ 80, 20 });
-	btnAssignTruck.click().connect(this, &MineOperationsWindow::btnAssignTruckClicked);
+	btnAssignTruck.click().connect(this, &MineOperationsWindow::onAssignTruck);
 
 	add(btnUnassignTruck, {mRect.width - 170, 115});
 	btnUnassignTruck.size({ 80, 20 });
-	btnUnassignTruck.click().connect(this, &MineOperationsWindow::btnUnassignTruckClicked);
+	btnUnassignTruck.click().connect(this, &MineOperationsWindow::onUnassignTruck);
 
 	// ORE TOGGLE BUTTONS
 	add(chkCommonMetals, {148, 140});
-	chkCommonMetals.click().connect(this, &MineOperationsWindow::chkCommonMetalsClicked);
+	chkCommonMetals.click().connect(this, &MineOperationsWindow::onCheckBoxCommonMetalsChange);
 
 	add(chkCommonMinerals, {259, 140});
-	chkCommonMinerals.click().connect(this, &MineOperationsWindow::chkCommonMineralsClicked);
+	chkCommonMinerals.click().connect(this, &MineOperationsWindow::onCheckBoxCommonMineralsChange);
 
 	add(chkRareMetals, {148, 160});
-	chkRareMetals.click().connect(this, &MineOperationsWindow::chkRareMetalsClicked);
+	chkRareMetals.click().connect(this, &MineOperationsWindow::onCheckBoxRareMetalsChange);
 
 	add(chkRareMinerals, {259, 160});
-	chkRareMinerals.click().connect(this, &MineOperationsWindow::chkRareMineralsClicked);
+	chkRareMinerals.click().connect(this, &MineOperationsWindow::onCheckBoxRareMineralsChange);
 }
 
 
@@ -107,27 +107,27 @@ void MineOperationsWindow::mineFacility(MineFacility* facility)
 }
 
 
-void MineOperationsWindow::btnOkayClicked()
+void MineOperationsWindow::onOkay()
 {
 	hide();
 }
 
 
-void MineOperationsWindow::btnExtendShaftClicked()
+void MineOperationsWindow::onExtendShaft()
 {
 	mFacility->extend();
 	btnExtendShaft.enabled(false);
 }
 
 
-void MineOperationsWindow::btnIdleClicked()
+void MineOperationsWindow::onIdle()
 {
 	mFacility->forceIdle(btnIdle.toggled());
 }
 
 
 
-void MineOperationsWindow::btnAssignTruckClicked()
+void MineOperationsWindow::onAssignTruck()
 {
 	if (mFacility->assignedTrucks() == mFacility->maxTruckCount()) { return; }
 
@@ -139,7 +139,7 @@ void MineOperationsWindow::btnAssignTruckClicked()
 }
 
 
-void MineOperationsWindow::btnUnassignTruckClicked()
+void MineOperationsWindow::onUnassignTruck()
 {
 	if (mFacility->assignedTrucks() == 1) { return; }
 
@@ -151,25 +151,25 @@ void MineOperationsWindow::btnUnassignTruckClicked()
 }
 
 
-void MineOperationsWindow::chkCommonMetalsClicked()
+void MineOperationsWindow::onCheckBoxCommonMetalsChange()
 {
 	mFacility->mine()->miningCommonMetals(chkCommonMetals.checked());
 }
 
 
-void MineOperationsWindow::chkCommonMineralsClicked()
+void MineOperationsWindow::onCheckBoxCommonMineralsChange()
 {
 	mFacility->mine()->miningCommonMinerals(chkCommonMinerals.checked());
 }
 
 
-void MineOperationsWindow::chkRareMetalsClicked()
+void MineOperationsWindow::onCheckBoxRareMetalsChange()
 {
 	mFacility->mine()->miningRareMetals(chkRareMetals.checked());
 }
 
 
-void MineOperationsWindow::chkRareMineralsClicked()
+void MineOperationsWindow::onCheckBoxRareMineralsChange()
 {
 	mFacility->mine()->miningRareMinerals(chkRareMinerals.checked());
 }

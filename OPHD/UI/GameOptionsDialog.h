@@ -7,33 +7,33 @@
 class GameOptionsDialog : public Window
 {
 public:
-	using ClickCallback = NAS2D::Signals::Signal<>;
+	using ClickSignal = NAS2D::Signal<>;
 
 	GameOptionsDialog();
 	~GameOptionsDialog() override;
 
 	void update() override;
 
-	ClickCallback& SaveGame() { return mCallbackSave; }
-	ClickCallback& LoadGame() { return mCallbackLoad; }
-	ClickCallback& returnToGame() { return mCallbackReturn; }
-	ClickCallback& returnToMainMenu() { return mCallbackClose; }
+	ClickSignal::Source& SaveGame() { return mSignalSave; }
+	ClickSignal::Source& LoadGame() { return mSignalLoad; }
+	ClickSignal::Source& returnToGame() { return mSignalReturn; }
+	ClickSignal::Source& returnToMainMenu() { return mSignalClose; }
 
 private:
-	void btnLoadClicked();
-	void btnSaveClicked();
-	void btnReturnClicked();
-	void btnCloseClicked();
+	void onLoad();
+	void onSave();
+	void onReturn();
+	void onClose();
 
-	void enabledChanged() override;
+	void onEnableChange() override;
 
 	Button btnSave;
 	Button btnLoad;
 	Button btnReturn;
 	Button btnClose;
 
-	ClickCallback mCallbackSave;
-	ClickCallback mCallbackLoad;
-	ClickCallback mCallbackReturn;
-	ClickCallback mCallbackClose;
+	ClickSignal mSignalSave;
+	ClickSignal mSignalLoad;
+	ClickSignal mSignalReturn;
+	ClickSignal mSignalClose;
 };

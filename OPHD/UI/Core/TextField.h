@@ -20,17 +20,15 @@ namespace NAS2D {
 
 
 /**
- * \class TextField
- * \brief A Basic Text Field.
+ * A Basic Text Field.
  *
  * The Field Control is just a set of rendered text a user can enter.
  */
-class TextField: public TextControl
+class TextField : public TextControl
 {
 public:
 	/**
-	* \enum	BorderVisiblity
-	* \brief	Enumerates border visibility options.
+	* Enumerates border visibility options.
 	*
 	* \note	TextField defaults to a BorderVisibility::FocusOnly setting.
 	*/

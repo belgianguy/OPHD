@@ -6,7 +6,7 @@
 #include "../../Constants/UiConstants.h"
 
 #include <NAS2D/Utility.h>
-#include <NAS2D/Signal.h>
+#include <NAS2D/Signal/Signal.h>
 #include <NAS2D/EventHandler.h>
 #include <NAS2D/Renderer/Color.h>
 #include <NAS2D/Renderer/Renderer.h>
@@ -57,7 +57,7 @@ template <typename ListBoxItem = ListBoxItemText>
 class ListBox : public Control
 {
 public:
-	using SelectionChangedCallback = NAS2D::Signals::Signal<>;
+	using SelectionChangeSignal = NAS2D::Signal<>;
 
 	ListBox() :
 		mContext{fontCache.load(constants::FONT_PRIMARY, constants::FONT_PRIMARY_NORMAL)}
@@ -69,7 +69,7 @@ public:
 		mSlider.displayPosition(false);
 		mSlider.length(0);
 		mSlider.thumbPosition(0);
-		mSlider.change().connect(this, &ListBox::slideChanged);
+		mSlider.change().connect(this, &ListBox::onSlideChange);
 		updateScrollLayout();
 	}
 
@@ -78,7 +78,7 @@ public:
 		NAS2D::Utility<NAS2D::EventHandler>::get().mouseMotion().disconnect(this, &ListBox::onMouseMove);
 		NAS2D::Utility<NAS2D::EventHandler>::get().mouseWheel().disconnect(this, &ListBox::onMouseWheel);
 
-		mSlider.change().disconnect(this, &ListBox::slideChanged);
+		mSlider.change().disconnect(this, &ListBox::onSlideChange);
 	}
 
 	bool isEmpty() const {
@@ -186,7 +186,7 @@ public:
 		mSlider.update();
 	}
 
-	SelectionChangedCallback& selectionChanged() {
+	SelectionChangeSignal::Source& selectionChanged() {
 		return mSelectionChanged;
 	}
 
@@ -220,7 +220,7 @@ protected:
 		mSlider.changeThumbPosition((y < 0 ? 16.0f : -16.0f));
 	}
 
-	virtual void slideChanged(float newPosition) {
+	virtual void onSlideChange(float newPosition) {
 		updateScrollLayout();
 		// Intentional truncation of fractional value
 		const auto pos = std::floor(newPosition);
@@ -231,12 +231,16 @@ protected:
 	}
 
 
-	void visibilityChanged(bool /*visible*/) override {
+	void onVisibilityChange(bool /*visible*/) override {
 		updateScrollLayout();
 	}
 
 private:
-	void onSizeChanged() override {
+	void onMove(NAS2D::Vector<int> /*displacement*/) override {
+		updateScrollLayout();
+	}
+
+	void onResize() override {
 		updateScrollLayout();
 	}
 
@@ -273,6 +277,6 @@ private:
 
 	NAS2D::Rectangle<int> mScrollArea;
 
-	SelectionChangedCallback mSelectionChanged; /**< Callback for selection changed callback. */
+	SelectionChangeSignal mSelectionChanged; /**< Signal for selection changed callback. */
 	Slider mSlider;
 };

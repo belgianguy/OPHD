@@ -35,7 +35,6 @@ public:
 	RadioButtonGroup() = default;
 	RadioButtonGroup(std::vector<ButtonInfo> buttonInfos);
 	~RadioButtonGroup();
-    void add(NAS2D::DelegateX<void> delegate, const std::string& name);
 
     void setSelected(std::size_t index);
 

@@ -26,8 +26,16 @@
 class RadioButtonGroup : public Control
 {
 public:
+	struct ButtonInfo
+	{
+		std::string name;
+		NAS2D::DelegateX<void> delegate;
+	};
+
+	RadioButtonGroup() = default;
+	RadioButtonGroup(std::vector<ButtonInfo> buttonInfos);
 	~RadioButtonGroup();
-    void add(NAS2D::DelegateX<void> delegate, const std::string& name, bool checked = false);
+    void add(NAS2D::DelegateX<void> delegate, const std::string& name);
 
     void setSelected(std::size_t index);
 

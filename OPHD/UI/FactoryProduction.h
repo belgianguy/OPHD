@@ -54,5 +54,9 @@ private:
 
 	CheckBox chkIdle{"Idle"};
 
-	RadioButtonGroup rbg{};
+	RadioButtonGroup rbg{{
+		{"One", NAS2D::MakeDelegate(this, &FactoryProduction::onCheckBoxIdleChange)},
+		{"Two", NAS2D::MakeDelegate(this, &FactoryProduction::onCheckBoxIdleChange)},
+		{"Three", NAS2D::MakeDelegate(this, &FactoryProduction::onCheckBoxIdleChange)}
+	}};
 };

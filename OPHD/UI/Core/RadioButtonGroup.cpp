@@ -13,7 +13,15 @@
 using namespace NAS2D;
 
 
-void RadioButtonGroup::add(NAS2D::DelegateX<void> delegate, const std::string& name, bool checked)
+RadioButtonGroup::RadioButtonGroup(std::vector<ButtonInfo> buttonInfos)
+{
+	for(auto &buttonInfo : buttonInfos)
+	{
+		add(buttonInfo.delegate, buttonInfo.name);
+	}
+}
+
+void RadioButtonGroup::add(NAS2D::DelegateX<void> delegate, const std::string& name)
 {
 	//RadioButton* rb = new RadioButton(name, this, NAS2D::MakeDelegate(obj, func));
 	NAS2D::Vector<int> offset = {0, 13};
@@ -23,8 +31,6 @@ void RadioButtonGroup::add(NAS2D::DelegateX<void> delegate, const std::string& n
 	//mRadioButtons.push_back(rb);
 	mRadioButtons.back().visible(visible());
 	mRadioButtons.back().position(mRect.startPoint() + offset);
-	mRadioButtons.back().checked(checked);
-	if(checked) { mRadioButtons.back().click(); }
 }
 
 void RadioButtonGroup::onMove(NAS2D::Vector<int> displacement)

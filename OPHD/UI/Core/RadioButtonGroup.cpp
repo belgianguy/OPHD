@@ -15,6 +15,7 @@ using namespace NAS2D;
 
 RadioButtonGroup::RadioButtonGroup(std::vector<ButtonInfo> buttonInfos)
 {
+	mRadioButtons.reserve(buttonInfos.size());
 	for(auto &buttonInfo : buttonInfos)
 	{
 		add(buttonInfo.delegate, buttonInfo.name);

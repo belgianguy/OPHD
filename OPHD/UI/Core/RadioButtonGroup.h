@@ -27,20 +27,7 @@ class RadioButtonGroup : public Control
 {
 public:
 	~RadioButtonGroup();
-    void add(NAS2D::DelegateX<void> delegate, const std::string& name, bool checked = false)
-    {
-        //RadioButton* rb = new RadioButton(name, this, NAS2D::MakeDelegate(obj, func));
-        NAS2D::Vector<int> offset = {0, 13};
-        offset.y = mRadioButtons.size() * offset.y;
-
-    	mRadioButtons.emplace_back(name, this, delegate);
-    	//mRadioButtons.push_back(rb);
-    	mRadioButtons.back().visible(visible());
-    	mRadioButtons.back().position(mRect.startPoint() + offset);
-    	mRadioButtons.back().checked(checked);
-		if(checked) { mRadioButtons.back().click(); }
-
-    }
+    void add(NAS2D::DelegateX<void> delegate, const std::string& name, bool checked = false);
 
     void setSelected(std::size_t index);
 

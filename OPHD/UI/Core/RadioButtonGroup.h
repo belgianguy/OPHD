@@ -4,10 +4,12 @@
 #include "Label.h"
 #include "RadioButtonGroup.h"
 
-#include <NAS2D/Signal.h>
+#include <NAS2D/Signal/Signal.h>
+#include <NAS2D/Signal/Delegate.h>
+
 #include <NAS2D/EventHandler.h>
-#include <NAS2D/Resources/Image.h>
-#include <NAS2D/Delegate.h>
+#include <NAS2D/Resource/Image.h>
+
 
 #include "../../Cache.h"
 #include "../../Constants.h"
@@ -22,20 +24,17 @@
 
 #include <iostream>
 
-using namespace NAS2D;
-
 class RadioButtonGroup : public Control
 {
 public:
 	~RadioButtonGroup();
-    template<typename X, typename Y, typename ... Params>
-    void add(Y * obj, void (X::*func)(Params...), const std::string& name, bool checked = false)
+    void add(NAS2D::DelegateX<void> delegate, const std::string& name, bool checked = false)
     {
         //RadioButton* rb = new RadioButton(name, this, NAS2D::MakeDelegate(obj, func));
         NAS2D::Vector<int> offset = {0, 13};
         offset.y = mRadioButtons.size() * offset.y;
 
-    	mRadioButtons.emplace_back(name, this, NAS2D::MakeDelegate(obj, func));
+    	mRadioButtons.emplace_back(name, this, delegate);
     	//mRadioButtons.push_back(rb);
     	mRadioButtons.back().visible(visible());
     	mRadioButtons.back().position(mRect.startPoint() + offset);
@@ -44,7 +43,7 @@ public:
 
     }
 
-    void positionChanged(int dX, int dY) override;
+    void onMove(NAS2D::Vector<int> displacement) override;
     void update() override;
 
     void clearSelection();
@@ -54,7 +53,7 @@ private:
     class RadioButton : public TextControl
     {
     public:
-    	using ClickCallback = NAS2D::Signals::Signal<>;
+    	using ClickCallback = NAS2D::Signal<>;
 
     	RadioButton(std::string newText, RadioButtonGroup* parentContainer, NAS2D::DelegateX<void> delegate);
     	~RadioButton() override;
@@ -71,9 +70,8 @@ private:
 
     protected:
 
-    	void onSizeChanged() override;
-    	void onTextChanged() override;
-
+    	void onResize() override;
+    	void onTextChange() override;
     	void parentContainer(RadioButtonGroup* parent);
 
     private:

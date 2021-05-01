@@ -42,20 +42,16 @@ FactoryProduction::FactoryProduction() :
 
 	add(chkIdle, {mProductGrid.size().x + 12, 115});
 	chkIdle.size({50, 20});
-<<<<<<< HEAD
-	chkIdle.click().connect(this, &FactoryProduction::chkIdleClicked);
 
 	std::string labelOne = "One";
 	std::string labelTwo = "Two";
 	std::string labelThree = "Three";
 	add(rbg, {mProductGrid.size().x + 12, 25});
 	rbg.size({50,50});
-	rbg.add(this, &FactoryProduction::chkIdleClicked, labelOne);
-	rbg.add(this, &FactoryProduction::chkIdleClicked, labelTwo, true);
-	rbg.add(this, &FactoryProduction::chkIdleClicked, labelThree);
-=======
+	rbg.add(NAS2D::MakeDelegate(this, &FactoryProduction::onCheckBoxIdleChange), labelOne);
+	rbg.add(NAS2D::MakeDelegate(this, &FactoryProduction::onCheckBoxIdleChange), labelTwo, true);
+	rbg.add(NAS2D::MakeDelegate(this, &FactoryProduction::onCheckBoxIdleChange), labelThree);
 	chkIdle.click().connect(this, &FactoryProduction::onCheckBoxIdleChange);
->>>>>>> upstream/master
 }
 
 

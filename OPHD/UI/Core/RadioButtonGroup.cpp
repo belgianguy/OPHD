@@ -9,6 +9,8 @@
 
 #include <algorithm>
 
+using namespace NAS2D;
+
 
 RadioButtonGroup::RadioButton::RadioButton(std::string newText, RadioButtonGroup* parentContainer, NAS2D::DelegateX<void> delegate) :
 	mFont{fontCache.load(constants::FONT_PRIMARY, constants::FONT_PRIMARY_NORMAL)},
@@ -20,7 +22,7 @@ RadioButtonGroup::RadioButton::RadioButton(std::string newText, RadioButtonGroup
 	text(newText);
 	mRbgDelegate = delegate;
 	Utility<EventHandler>::get().mouseButtonDown().connect(this, &RadioButtonGroup::RadioButton::onMouseDown);
-	onTextChanged();
+	onTextChange();
 }
 
 RadioButtonGroup::RadioButton::~RadioButton()
@@ -53,7 +55,7 @@ void RadioButtonGroup::RadioButton::parentContainer(RadioButtonGroup* parent)
 void RadioButtonGroup::RadioButton::text(const std::string& text)
 {
 	mLabel.text(text);
-	onTextChanged();
+	onTextChange();
 }
 
 const std::string& RadioButtonGroup::RadioButton::text() const
@@ -91,7 +93,7 @@ void RadioButtonGroup::RadioButton::onMouseDown(EventHandler::MouseButton button
 }
 
 
-void RadioButtonGroup::RadioButton::onTextChanged()
+void RadioButtonGroup::RadioButton::onTextChange()
 {
 	const auto textWidth = mFont.width(text());
 	width((textWidth > 0) ? 20 + textWidth : 13);
@@ -101,7 +103,7 @@ void RadioButtonGroup::RadioButton::onTextChanged()
 /**
  * Enforces minimum and maximum sizes.
  */
-void RadioButtonGroup::RadioButton::onSizeChanged()
+void RadioButtonGroup::RadioButton::onResize()
 {
 	mRect.size({std::max(mRect.width, 13), 13});
 }
@@ -119,13 +121,14 @@ void RadioButtonGroup::RadioButton::update()
 }
 
 
-void RadioButtonGroup::positionChanged(int dX, int dY)
+void RadioButtonGroup::onMove(NAS2D::Vector<int> displacement)
 {
-	Control::positionChanged(dX, dY);
+	Control::onMove(displacement);
 
 	for (auto &control : mRadioButtons)
 	{
-		control.position(control.position() + NAS2D::Vector{dX, dY});
+		//control.position(control.position() + NAS2D::Vector{dX, dY});
+		control.position(control.position() + displacement);
 	}
 }
 
@@ -170,10 +173,7 @@ bool RadioButtonGroup::hasOneSelectedItem()
 
 RadioButtonGroup::~RadioButtonGroup()
 {
-	for (auto &control : mRadioButtons)
-	{
-		//delete control;
-	}
+
 }
 
 

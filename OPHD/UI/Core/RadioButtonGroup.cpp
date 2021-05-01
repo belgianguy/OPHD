@@ -176,6 +176,11 @@ RadioButtonGroup::~RadioButtonGroup()
 
 }
 
+void RadioButtonGroup::setSelected(std::size_t index)
+{
+	mRadioButtons[index].checked(true);
+}
+
 
 
 

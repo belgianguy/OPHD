@@ -43,6 +43,8 @@ public:
 
     }
 
+    void setSelected(std::size_t index);
+
     void onMove(NAS2D::Vector<int> displacement) override;
     void update() override;
 

@@ -2,7 +2,6 @@
 
 #include "TextControl.h"
 #include "Label.h"
-#include "RadioButtonGroup.h"
 
 #include <NAS2D/Signal/Signal.h>
 #include <NAS2D/Signal/Delegate.h>
